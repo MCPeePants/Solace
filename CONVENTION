@@ -1,0 +1,36 @@
+==== CODING CONVENTIONS ====
+
+=== Header files
+Header files shall use the extension .h
+
+Include guards shall be formatted in the following way:
+	#ifndef SLC_MODULE_FILE_H
+	#define SLC_MODULE_FILE_H
+	<code>
+	#endif
+where
+	MODULE is the module the header belongs to in all-caps and
+	FILE is the filename of the header without the extension .h in all-caps
+
+Forward declarations shall be placed in their own header files.
+(A header like this will later be called 'header_fwd')
+The headers shall be named as follows:
+	header_fwd.h
+where
+	header is the filename of the header without the extension .h
+Headers for inline functions and templated classes are special cases.
+They will be discussed later.
+
+Inline files are used for special cases such as templated classes.
+Inline file is an implementation file included in a header.
+This is because it allows definition 'outside' the header file
+for member functions of templated classes and implementations
+for inline functions in a very similar way.
+Inline files shall use the extension .inl
+If an inline file is included in a header, the header_fwd for that
+header shall only contain an include statement to include the
+actual header.
+
+
+==== OTHER ====
+z33ky's document can be found at http://pastebin.com/CbTaexhZ
