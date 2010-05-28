@@ -1,9 +1,20 @@
 ==== CODING CONVENTIONS ====
 
-=== Header files
-Header files shall use the extension .h
+=== Folder Structure
+all code resists in /src
+the code is split in various "modules"
+modules are the folder-representations of namespaces
 
-Include guards shall be formatted in the following way:
+=== File Generalities
+files do not use special characters, apart from the dot ('.') for the file extension
+files are often named after the class they define or declare
+files are to be given a short name that describes their content
+files that belong together (e.g. header and implementation file) are usually named alike, the only difference being the file extension
+
+=== Header Files
+header files use the .h extension
+
+includeguards are formatted in the following way:
 	#ifndef SLC_MODULE_FILE_H
 	#define SLC_MODULE_FILE_H
 	<code>
@@ -12,25 +23,139 @@ where
 	MODULE is the module the header belongs to in all-caps and
 	FILE is the filename of the header without the extension .h in all-caps
 
-Forward declarations shall be placed in their own header files.
-(A header like this will later be called 'header_fwd')
-The headers shall be named as follows:
-	header_fwd.h
-where
-	header is the filename of the header without the extension .h
-Headers for inline functions and templated classes are special cases.
-They will be discussed later.
+ == Forward Header
+ forward declarations, enums and other public data are placed in their own header files
+ headers include their forward-declaring headers
+ the fowrard declaring header is named as follows:
+ 	header_fwd.h
+ where
+ 	header is the filename of the header without the extension .h
+ for consistency, every header has a corresponding forward header
+ class-scoped typedefs, enums or other data might require that class to be put in the forward-header
 
-Inline files are used for special cases such as templated classes.
-Inline file is an implementation file included in a header.
-This is because it allows definition 'outside' the header file
-for member functions of templated classes and implementations
-for inline functions in a very similar way.
-Inline files shall use the extension .inl
-If an inline file is included in a header, the header_fwd for that
-header shall only contain an include statement to include the
-actual header.
+ == Inline Files
+ inline files use the extension .inl
+ inline files are used whenever you want to enable inlining of functions (e.g. templated classes)
+ an inline file is an implementation file included in a header
+ Note: though include files are used as a header, they do not obey their rules. Instead they follow the rules of implementation files.
 
+=== Implementation Files
+implementation files use the .cpp extension
+
+TBD: usage of a precompiled-header
+C++ headers are included first
+followed by 3rd party headers
+followed by this projects headers
+the order of headers within those constrains is alphabetical
+
+=== Functions
+functions use names descriptive to their purpose
+function are named in camelCase
+
+ == Memberfunctions
+ non-modifying member-functions have a space before the const-keyword
+ 	T getSomething() const;
+  = Accessors
+  most member-variables will use accessors like in this example:
+  	T getVar();
+  or
+TBD:	T& getVarRef();
+  and
+  	void setVar(T var);
+  or
+  	void setVar(T &var);
+  (note: the appropriate usage of const was left out in this example)
+
+ == Returntypes
+ if the return type is a pointer or reference, the star/and-symbol are to be attached to the type
+ 	T& iReturnT();
+
+ == Arguments
+ function arguments are declared as discussed in the Variables and Contants section
+ the void for argument-less functions is not explicitly written
+
+=== Assembly
+if you feel that you can provide a better assembly than the compiler can, write it
+use the preprocessor to determine if it can be used
+make sure that there is a C++-version of it for portability reasons
+
+=== Variables and Constants
+constants use the same convention as variables
+
+variables use descriptive names
+variables are named in camelCase
+
+declarations of a pointer or reference-type have the star or and-symbol attached to their name
+
+a descriptive typedef usually helps for compilated typenames (e.g. templated classes)
+
+ == Member Variables
+ member variables are usually private and use accessors
+
+=== Paranthesis and Indentation:
+the opening curly bracket is placed in the same line as the statement, with no space in between
+the closing curly bracket is placed in the same height as the associated control statement
+ exceptions:
+ empty function-bodies: in this case simply '{}' is written
+ namespaces are clustered in one line with one space to the right between each decleration
+ the closing brackets may also be clustered in one line with one space between each decleration
+ an empty line follows after the last opening bracket
+ an empty line follows before the first closing bracket
+ 	namespace a{ namespace b{ namespace c{
+
+ 	  //declerations/definitions
+
+ 	}}}
+ the square brackets (array subscript) are used without any additional spaces
+ 	a[0]++;
+ inequality-signs (angle brackets) -> see either the section Operators or Templates
+ round brackets are used without any additional spaces
+ 	if(a){
+ 	  b(c);
+ 	} else{
+ 	  b(-c);
+ 	}
+ 
+each scope is indented by two spaces
+opening curly brackets are placed in the same line as the decleration
+the opening curly bracket is followed by a new line
+closing curly brackets are not in the same line as their opening bracket and are placed in the same height as the control statement
+ one-line-function definitions inside class decleration may have the definiton and the closing curly bracket in the same line as the opening one
+	 class A{
+	 public:
+	   A(void);
+	   ~A(void);
+	 
+	   void setVar(const T &v){ m_var = v;}
+	   T& getVarRef(void){ return m_var;}
+	
+	 private:
+	   T m_var;
+ };
+ 
+single control-statements (if no else associated, loops) do not have curly brackets attached to them if only one command is in the boy, but the body is still placed after a new line
+	if(something)
+	  somethingHappened();
+ 
+switch-statements have their cases in the same height as the switch-statement
+the commands of a case for a switch-statement are indented by two spaces and are not in the same line as the case
+the break for the cases of a switch-statement is on the same height as its corresponding case
+	switch(a){
+	case 1:
+	  doSomething();
+	  doSomethingElse();
+	break;
+	case 2:
+	  doSomethingElse();
+	break;
+	[...]
+	}
+
+TBD: one line is broken into multiple lines if the line without indentation is longer than 75 characters (10 characters tolerance)
+ 
+initializer-lists are written in one line after the declaration with two space-characters indentation and no additional space-cahracter to its right
+	SomeClass::SomeClass(T1 arg1, T2 arg2)
+	  :member1(arg1), member2(arg2)
 
 ==== OTHER ====
 z33ky's document can be found at http://pastebin.com/CbTaexhZ
