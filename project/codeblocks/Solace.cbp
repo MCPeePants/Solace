@@ -40,8 +40,8 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="src\logic\ObjDynamic.hpp" />
-		<Unit filename="src\main.cpp" />
+		<Unit filename="..\..\src\logic\ObjDynamic.hpp" />
+		<Unit filename="..\..\src\main.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />
