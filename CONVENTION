@@ -50,7 +50,7 @@ the order of headers within those constrains is alphabetical
 
 === Functions
 functions use names descriptive to their purpose
-function are named in camelCase
+function are named in lowerCamelCase
 
  == Memberfunctions
  non-modifying member-functions have a space before the const-keyword
@@ -83,7 +83,7 @@ make sure that there is a C++-version of it for portability reasons
 constants use the same convention as variables
 
 variables use descriptive names
-variables are named in camelCase
+variables are named in lowerCamelCase
 
 declarations of a pointer or reference-type have the star or and-symbol attached to their name
 
@@ -156,6 +156,100 @@ TBD: one line is broken into multiple lines if the line without indentation is l
 initializer-lists are written in one line after the declaration with two space-characters indentation and no additional space-cahracter to its right
 	SomeClass::SomeClass(T1 arg1, T2 arg2)
 	  :member1(arg1), member2(arg2)
+
+the colon for inheritance has a space to its right, but none to its left operant
+additionally no new line is used, if appropriate
+	class a: public b
+
+=== Classes and Structs
+structs generally follow the conventions of classes, except when spefically noted
+
+classes are named with UpperCamelCase
+classes have descriptive names
+classes should have accessors for all their member-variables
+
+accesors are generally named after their variable
+getters are orefixed with get
+TBD: getters returning references are postfixed Ref
+setters are prefixed with set
+
+initialization-time singletons have their instance-name equal to their classname
+post-initializazion-time singletons have to declare their constructor and the operator new and delete non-public and are to provide a static getter for an instance
+TBD: A uniform getter would probably be best.
+
+TBD: ordering of macros and public/private/protected inner structs/classes/enums/typedefs/functions/con/destructors/...
+
+only define short one-liners directly in class definitions
+use a single line for that, if appropriate
+
+ == Structs
+ TBD: use structs for data accumulaton purposes only
+      structs should not have accessors
+
+TBD: prefix interfaces with an I
+
+=== Templates
+the typename-keyword is used to define template-class-parameters
+parameters use descriptive names
+
+the inequality-signs (angle brackets) are used without additional space-characters
+note: C++03 does not play nice with template<typename A<typename B>>, as such you place a space-character at the end of the closing greater-than-sign
+	template<typename T, typename U<typename UT = T> >
+	class A{ ... };
+TBD: use the C++0x compiler extensions to allow this?
+
+after the complete template-declaration a new line follows (this also applies to (partial) template specialization)
+exceptions:
+ for function-declerations and template specialization no new line is used
+ for partial template specialization with multiple template-keywords no new line, but a space-character is used in between
+ 	template<typename A> template<typename B>
+ for the function-call or class-instanciation there no new line is used
+ 	A<int, list> var;
+
+=== Semicolons and Commas
+after a semicolon a new line usually follows for the next command
+exceptions:
+ for-loops just use a single space-character to thier right and no additional character to their left
+ 	for(std::size_t i = 0; i < 10; ++i)
+
+a comma has a single space-character to their right, no additional character to thier left
+note: it makes to difference in formattation if the comma is used as seperator or operator
+
+=== Operators
+unary operators use no space-character the operator and the variable
+	++a;
+
+non-unary operators use space-characters between each variable
+	a = b ? (c + d) : (c - d);
+exceptions:
+ the following operators are used without space-characters in between:
+ function call, array subscript, member, member by pointer, bind pointer to member by pointer, bind pointer to member by reference, scope resolution, pointer to member
+ 	a[0].b->c();
+
+=== Comments
+TBD: each header has a comment at its top, explaining its purpose
+comment code, which purpose or inner workings is hard to determine
+use the pre-processor to out-comment code
+place a single-line comment at the top to explain why the code is commented out
+
+things, that are left to be done, are signed via a 'TODO: ' in the line before the point where it should be done in a single-line comment, followed by a description on what is there to be done
+	//TODO: look into the doSomethingDifferently-function ;z33ky
+things, that need fixing, are signed via a 'FIXME: ' in the line before the point that needs fixing in a single-line comment, followed by a description on what is there to be fixed
+	//FIXME: crashes when the index in bigger than 42 ;z33ky
+things, that work, but use some ugly code to work ('hacks') are signed via a 'HACK: ' in the line before the point that includes the work-around, followed by a description on what was worked around and why it was required to be worked around
+	//HACK: many problems arise from throwing an exception here, as such we are silently ignoring the error ;z33ky
+TODOs, FIXMEs and HACKs are usually signed from the person who wrote them, by putting ' ;<name>' after the description for contacting purposes
+any further notices are placed in a new line under the comment and prefixed with '//^- ' and also signed like TODOs, FIXMEs and HACKs
+	//FIXME: crashes when the index is bigger than 42 ;z33ky
+	//^- might be related to the FIXME in Bugger::FortyTwoCrash ;f00by
+use multiple single-line comments for TODOs, HACKs and FIXMEs if you have to break into a new line in a comment and indent by two spaces after the following '//'
+
+=== Preprocessor
+
+ == Macros
+ macros are usually named in ALL_CAPS with an underscore seperating the words, if needed
+ be careful with macros and try to enclose them with braces of some kind
+ usually you should write function-like macros to require an additional semicolon at their end
 
 ==== OTHER ====
 z33ky's document can be found at http://pastebin.com/CbTaexhZ
