@@ -9,7 +9,7 @@
 class ObjDynamic
 {
     private:
-    int m_X, m_Y;             // X and Y position
+    int m_X, m_Y;             // X and Y position   Shouldn't these be floats?
     float m_Xvel, m_Yvel;     // X and Y velocity
     sf::Sprite m_Sprite;     // Object sprite
     sf::Image m_Image;       // Image that can be used for the sprite
