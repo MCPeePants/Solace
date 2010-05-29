@@ -1,20 +1,25 @@
 ==== CODING CONVENTIONS ====
 
 === Folder Structure
-all code resists in /src
-the code is split in various "modules"
-modules are the folder-representations of namespaces
+All code shall reside in /src
+The code is divided in various modules, each of which contains functions and
+classes that have similar functionality, eg. the graphics -module might contain
+a sprite class and blitting functions.
+Each module resides in its own folder. All code in a module is contained in a
+namespace named after the folder.
 
-=== File Generalities
-files do not use special characters, apart from the dot ('.') for the file extension
-files are often named after the class they define or declare
-files are to be given a short name that describes their content
-files that belong together (e.g. header and implementation file) are usually named alike, the only difference being the file extension
+=== Files Generally
+File names shall not contain characters other than latin letters and numbers.
+That is, a-z, A-Z and 0-9.
+Files are to be named after the class they define or declare, or by a short name
+describing their contents.
+Related files, for example headers and their implementation files are to be named
+similiarly, the sole difference being the file extension.
 
 === Header Files
-header files use the .h extension
+Header files shall use the extension .h
 
-includeguards are formatted in the following way:
+include guards are formatted in the following way:
 	#ifndef SLC_MODULE_FILE_H
 	#define SLC_MODULE_FILE_H
 	<code>
@@ -24,9 +29,10 @@ where
 	FILE is the filename of the header without the extension .h in all-caps
 
  == Forward Header
- forward declarations, enums and other public data are placed in their own header files
+ Forward declarations, enumerations and other public data is to be placed in
+ their own special header files, called forward headers (Header_fwd from now on)
  headers include their forward-declaring headers
- the fowrard declaring header is named as follows:
+ the forward declaring header is named as follows:
  	header_fwd.h
  where
  	header is the filename of the header without the extension .h
@@ -52,7 +58,7 @@ the order of headers within those constrains is alphabetical
 functions use names descriptive to their purpose
 function are named in lowerCamelCase
 
- == Memberfunctions
+ == Member functions
  non-modifying member-functions have a space before the const-keyword
  	T getSomething() const;
   = Accessors
@@ -66,12 +72,12 @@ TBD:	T& getVarRef();
   	void setVar(T &var);
   (note: the appropriate usage of const was left out in this example)
 
- == Returntypes
+ == Return types
  if the return type is a pointer or reference, the star/and-symbol are to be attached to the type
  	T& iReturnT();
 
  == Arguments
- function arguments are declared as discussed in the Variables and Contants section
+ function arguments are declared as discussed in the Variables and Constants section
  the void for argument-less functions is not explicitly written
 
 === Assembly
@@ -87,18 +93,18 @@ variables are named in lowerCamelCase
 
 declarations of a pointer or reference-type have the star or and-symbol attached to their name
 
-a descriptive typedef usually helps for compilated typenames (e.g. templated classes)
+a descriptive typedef usually helps for complicated type names (e.g. templated classes)
 
  == Member Variables
  member variables are usually private and use accessors
 
-=== Paranthesis and Indentation:
+=== Parentheses and Indentation:
 the opening curly bracket is placed in the same line as the statement, with no space in between
 the closing curly bracket is placed in the same height as the associated control statement
  exceptions:
  empty function-bodies: in this case simply '{}' is written
- namespaces are clustered in one line with one space to the right between each decleration
- the closing brackets may also be clustered in one line with one space between each decleration
+ namespaces are clustered in one line with one space to the right between each declaration
+ the closing brackets may also be clustered in one line with one space between each declaration
  an empty line follows after the last opening bracket
  an empty line follows before the first closing bracket
  	namespace a{ namespace b{ namespace c{
@@ -117,10 +123,10 @@ the closing curly bracket is placed in the same height as the associated control
  	}
  
 each scope is indented by two spaces
-opening curly brackets are placed in the same line as the decleration
+opening curly brackets are placed in the same line as the declaration
 the opening curly bracket is followed by a new line
 closing curly brackets are not in the same line as their opening bracket and are placed in the same height as the control statement
- one-line-function definitions inside class decleration may have the definiton and the closing curly bracket in the same line as the opening one
+ one-line-function definitions inside class declaration may have the definition and the closing curly bracket in the same line as the opening one
 	 class A{
 	 public:
 	   A(void);
@@ -153,7 +159,7 @@ the break for the cases of a switch-statement is on the same height as its corre
 
 TBD: one line is broken into multiple lines if the line without indentation is longer than 75 characters (10 characters tolerance)
  
-initializer-lists are written in one line after the declaration with two space-characters indentation and no additional space-cahracter to its right
+initializer-lists are written in one line after the declaration with two space-characters indentation and no additional space-character to its right
 	SomeClass::SomeClass(T1 arg1, T2 arg2)
 	  :member1(arg1), member2(arg2)
 
@@ -162,19 +168,19 @@ additionally no new line is used, if appropriate
 	class a: public b
 
 === Classes and Structs
-structs generally follow the conventions of classes, except when spefically noted
+structs generally follow the conventions of classes, except when specifically noted
 
 classes are named with UpperCamelCase
 classes have descriptive names
 classes should have accessors for all their member-variables
 
-accesors are generally named after their variable
-getters are orefixed with get
+accessors are generally named after their variable
+getters are prefixed with get
 TBD: getters returning references are postfixed Ref
 setters are prefixed with set
 
-initialization-time singletons have their instance-name equal to their classname
-post-initializazion-time singletons have to declare their constructor and the operator new and delete non-public and are to provide a static getter for an instance
+initialization-time singletons have their instance-name equal to their class name
+post-initialization-time singletons have to declare their constructor and the operator new and delete non-public and are to provide a static getter for an instance
 TBD: A uniform getter would probably be best.
 
 TBD: ordering of macros and public/private/protected inner structs/classes/enums/typedefs/functions/con/destructors/...
@@ -183,7 +189,7 @@ only define short one-liners directly in class definitions
 use a single line for that, if appropriate
 
  == Structs
- TBD: use structs for data accumulaton purposes only
+ TBD: use structs for data accumulation purposes only
       structs should not have accessors
 
 TBD: prefix interfaces with an I
@@ -200,20 +206,20 @@ TBD: use the C++0x compiler extensions to allow this?
 
 after the complete template-declaration a new line follows (this also applies to (partial) template specialization)
 exceptions:
- for function-declerations and template specialization no new line is used
+ for function-declarations and template specialization no new line is used
  for partial template specialization with multiple template-keywords no new line, but a space-character is used in between
  	template<typename A> template<typename B>
- for the function-call or class-instanciation there no new line is used
+ for the function-call or class-instantiation there no new line is used
  	A<int, list> var;
 
 === Semicolons and Commas
 after a semicolon a new line usually follows for the next command
 exceptions:
- for-loops just use a single space-character to thier right and no additional character to their left
+ for-loops just use a single space-character to their right and no additional character to their left
  	for(std::size_t i = 0; i < 10; ++i)
 
-a comma has a single space-character to their right, no additional character to thier left
-note: it makes to difference in formattation if the comma is used as seperator or operator
+a comma has a single space-character to their right, no additional character to their left
+note: it makes to difference in formatting if the comma is used as separator or operator
 
 === Operators
 unary operators use no space-character the operator and the variable
@@ -229,7 +235,7 @@ exceptions:
 === Comments
 TBD: each header has a comment at its top, explaining its purpose
 comment code, which purpose or inner workings is hard to determine
-use the pre-processor to out-comment code
+use the preprocessor to out-comment code
 place a single-line comment at the top to explain why the code is commented out
 
 things, that are left to be done, are signed via a 'TODO: ' in the line before the point where it should be done in a single-line comment, followed by a description on what is there to be done
@@ -247,7 +253,7 @@ use multiple single-line comments for TODOs, HACKs and FIXMEs if you have to bre
 === Preprocessor
 
  == Macros
- macros are usually named in ALL_CAPS with an underscore seperating the words, if needed
+ macros are usually named in ALL_CAPS with an underscore separating the words, if needed
  be careful with macros and try to enclose them with braces of some kind
  usually you should write function-like macros to require an additional semicolon at their end
 
