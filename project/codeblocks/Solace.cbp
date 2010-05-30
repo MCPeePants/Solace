@@ -39,9 +39,12 @@
 		<Compiler>
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
+			<Add directory="..\..\src" />
 		</Compiler>
 		<Unit filename="..\..\src\logic\ObjDynamic.h" />
 		<Unit filename="..\..\src\main.cpp" />
+		<Unit filename="..\..\src\math\vector.cpp" />
+		<Unit filename="..\..\src\math\vector.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />
