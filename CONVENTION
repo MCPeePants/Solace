@@ -233,21 +233,24 @@ exceptions:
  	a[0].b->c();
 
 === Comments
+Comments will have a single space after the comment token
+	// Like this
+
 TBD: each header has a comment at its top, explaining its purpose
 comment code, which purpose or inner workings is hard to determine
 use the preprocessor to out-comment code
 place a single-line comment at the top to explain why the code is commented out
 
 things, that are left to be done, are signed via a 'TODO: ' in the line before the point where it should be done in a single-line comment, followed by a description on what is there to be done
-	//TODO: look into the doSomethingDifferently-function ;z33ky
+	// TODO: look into the doSomethingDifferently-function ;z33ky
 things, that need fixing, are signed via a 'FIXME: ' in the line before the point that needs fixing in a single-line comment, followed by a description on what is there to be fixed
-	//FIXME: crashes when the index in bigger than 42 ;z33ky
+	// FIXME: crashes when the index in bigger than 42 ;z33ky
 things, that work, but use some ugly code to work ('hacks') are signed via a 'HACK: ' in the line before the point that includes the work-around, followed by a description on what was worked around and why it was required to be worked around
-	//HACK: many problems arise from throwing an exception here, as such we are silently ignoring the error ;z33ky
+	// HACK: many problems arise from throwing an exception here, as such we are silently ignoring the error ;z33ky
 TODOs, FIXMEs and HACKs are usually signed from the person who wrote them, by putting ' ;<name>' after the description for contacting purposes
 any further notices are placed in a new line under the comment and prefixed with '//^- ' and also signed like TODOs, FIXMEs and HACKs
-	//FIXME: crashes when the index is bigger than 42 ;z33ky
-	//^- might be related to the FIXME in Bugger::FortyTwoCrash ;f00by
+	// FIXME: crashes when the index is bigger than 42 ;z33ky
+	// ^- might be related to the FIXME in Bugger::FortyTwoCrash ;f00by
 use multiple single-line comments for TODOs, HACKs and FIXMEs if you have to break into a new line in a comment and indent by two spaces after the following '//'
 
 === Preprocessor
