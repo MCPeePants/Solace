@@ -65,7 +65,7 @@ Function naming is done in lowerCamelCase.
   Most member variables should only be accessed externally through accessors:
   	T getVar();
   or
-	T& getVarRef();
+	T& getVar();
   and
   	void setVar(T var);
   or
@@ -176,11 +176,11 @@ Additionally no new line is used, if appropriate.
 Structs generally follow the conventions of classes, unless specifically noted.
 
 Classes shall have descriptive names in UpperCamelCase.
-Classes should have accessors for all their member variables if necessary.
+Classes should have accessors for all publically accessible member variables, whether they be
+private or protected. Classes shall not have public member fields.
 
 Accessors are generally named after the associated variable.
 Getters are prefixed with get.
-TBD: Getters returning references are suffixed Ref.
 Setters are prefixed with set.
 
 Initialization time singletons have their instance name equal the class name.
@@ -195,9 +195,10 @@ Use a single line for that, if appropriate.
 
  == Structs
  TBD: Use structs for data accumulation purposes only.
-      Structs should not have accessors.
+      Structs should not have accessors, but can have non-virtual helper functions.
 
-TBD: Prefix interfaces with an I
+Structs shall not have inheritance.
+Structs CAN have public member fields.
 
 === Templates
 The typename keyword is used to define template parameters,
