@@ -195,8 +195,8 @@ Use a single line for that, if appropriate.
 
  == Structs
  TBD: Use structs for data accumulation purposes only.
-      Structs should not have accessors, but can have non-virtual helper functions.
 
+Structs should not have virtual or pure-virtual member functions.
 Structs shall not have inheritance.
 Structs CAN have public member fields.
 
