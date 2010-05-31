@@ -1,3 +1,5 @@
+#include "SFML/System/Vector2.hpp"
+
 template<typename T>
 Vector<T>::Vector(){}
 
@@ -14,6 +16,11 @@ void Vector<T>::setLength(T2 len)
   T scale = len * len / lengthSqr();
   tx *= scale;
   ty *= scale;
+}
+
+template<typename T> Vector<T>::operator sf::Vector2<T>()
+{
+  return sf::Vector2<T>( tx, ty );
 }
 
 template<typename T, typename T2>

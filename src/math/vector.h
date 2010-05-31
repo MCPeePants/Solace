@@ -5,6 +5,8 @@
 
 #include "math/vector_fwd.h"
 
+class sf::Vector;
+
 namespace math{
 
   // note: there's some sweet Boost class you can extend to autoamtically create a bunch of operators
@@ -49,6 +51,9 @@ namespace math{
     void setY(T y){ ty = y;}
 
     void set(T x, T y){ tx = x; ty = y;}
+
+    // Casting to sf::Vector2 
+    operator sf::Vector2<T>();
 
     private:
     T tx;
