@@ -18,10 +18,10 @@ class BaseControl
 class ControlList
 {
     private:
-    std::list<BaseControl*> controlList;
+    std::list<BaseControl*> controls;
 
     public:
-    void add(BaseControl* control);
+    void add(BaseControl& control);
 };
 
 #endif // SLC_GRAPHICS_UI_BASE_H
