@@ -1,12 +1,7 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include "graphics/ui/baseUI.h"
-
 #include "graphics/ui/Button.h"
-
-// Function declarations //
-void renderScene(sf::RenderWindow*);
-#include <graphics/ui/base.h>
 
 /// Function declarations ///
 void renderScene(sf::RenderWindow&);
