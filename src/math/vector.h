@@ -35,20 +35,20 @@ namespace math{
     // FIXME: should those two length-method not always use a floating-point type? ;z33ky
     template<typename T2>
     void setLength(T2 len);
-    T lengthSqr(){ return x * x + y * y;}
-    T length(){ return std::sqrt(lengthSqr());}
+    T lengthSqr() const{ return x * x + y * y;}
+    T length() const{ return std::sqrt(lengthSqr());}
 
     template<typename T2>
-    T distanceSqr(const Vector<T2> &a){ return ((*this) - a).lengthSqr();}
+    T distanceSqr(const Vector<T2> &a) const{ return ((*this) - a).lengthSqr();}
     template<typename T2>
-    T distance(const Vector<T2> &a){ return std::sqrt(distanceSqr());}
+    T distance(const Vector<T2> &a) const{ return std::sqrt(distanceSqr());}
 
     T getX() const{ return tx;}
     void setX(T x){ tx = x;}
     T getY() const{ return ty;}
     void setY(T y){ ty = y;}
 
-    void set(T, T){ tx = x; ty = y;}
+    void set(T x, T y){ tx = x; ty = y;}
 
     private:
     T tx;
