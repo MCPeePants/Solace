@@ -37,7 +37,7 @@ namespace math{
     // FIXME: should those two length-method not always use a floating-point type? ;z33ky
     template<typename T2>
     void setLength(T2 len);
-    T lengthSqr() const{ return x * x + y * y;}
+    T lengthSqr() const{ return tx * tx + ty * ty;}
     T length() const{ return std::sqrt(lengthSqr());}
 
     template<typename T2>
@@ -52,7 +52,7 @@ namespace math{
 
     void set(T x, T y){ tx = x; ty = y;}
 
-    // Casting to sf::Vector2 
+    // Casting to sf::Vector2
     operator sf::Vector2<T>();
 
     private:

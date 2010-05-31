@@ -1,5 +1,8 @@
 #include <SFML/Graphics.hpp>
 
+#include <iostream>
+
+#include "..\src\math\vector.h"
 /// Function declarations ///
 void renderScene(sf::RenderWindow&);
 void getEvents(sf::RenderWindow&);
@@ -14,6 +17,9 @@ int maxFramerate = 60;
 
 int main()
 {
+    math::Vector<float> a(3,1);
+
+
     // Create a window to draw on
     sf::RenderWindow Wnd(sf::VideoMode(gameWidth, gameHeight), "Solace", sf::Style::Close);
     Wnd.SetFramerateLimit(maxFramerate);
