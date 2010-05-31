@@ -1,22 +1,17 @@
 #include <iostream>
-
 #include <SFML/Graphics.hpp>
-
-<<<<<<< HEAD
 #include "graphics/ui/baseUI.h"
 
 #include "graphics/ui/Button.h"
 
 // Function declarations //
 void renderScene(sf::RenderWindow*);
-=======
 #include <graphics/ui/base.h>
 
 /// Function declarations ///
 void renderScene(sf::RenderWindow&);
 void getEvents(sf::RenderWindow&);
 /// ///
->>>>>>> 46b09d399501c0ed98d8e517ea1e36a53733d95f
 
 // Window width and height
 int gameWidth = 1024;
@@ -46,20 +41,6 @@ int main()
     return 0;
 }
 
-<<<<<<< HEAD
-// This function handles all of the game's drawing
-// If possible, do ALL drawing code in here, not
-// outside of it.
-// ARGUMENTS:
-//     *Surface => Pointer to the window to draw on
-void renderScene(sf::RenderWindow *surface)
-{
-    surface->Clear();
-
-    btn.Draw(surface);
-
-    surface->Display();
-=======
 /// This function handles all of the game's drawing
 /// If possible, do ALL drawing code in here, not
 /// outside of it.
@@ -99,5 +80,4 @@ void getEvents(sf::RenderWindow& window)
 			break;
 		}
 	}
->>>>>>> 46b09d399501c0ed98d8e517ea1e36a53733d95f
 }
