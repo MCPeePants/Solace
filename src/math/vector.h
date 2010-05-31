@@ -3,9 +3,10 @@
 
 #include <cmath>
 
-#include "math/vector_fwd.h"
+#include "SFML/System/Vector2.hpp"
 
-class sf::Vector2;
+// Code shouldn't presume that the source directory is a include folder
+#include "vector_fwd.h"
 
 namespace math{
 

@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-#include "..\src\math\vector.h"
+#include "../src/math/vector.h"
 /// Function declarations ///
 void renderScene(sf::RenderWindow&);
 void getEvents(sf::RenderWindow&);

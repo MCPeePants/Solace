@@ -1,5 +1,3 @@
-#include "SFML/System/Vector2.hpp"
-
 template<typename T>
 Vector<T>::Vector(){}
 
