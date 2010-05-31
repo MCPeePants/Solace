@@ -243,14 +243,14 @@ binary operators and the ternary operator use spaces between each variable
 **exceptions:**
 
 + the following operators are used without spaces in between:
- + function call
- + array subscript
- + member
- + member by pointer
- + bind pointer to member by pointer
- + bind pointer to member by reference
- + scope resolution
- + pointer to member
+  + function call
+  + array subscript
+  + member
+  + member by pointer
+  + bind pointer to member by pointer
+  + bind pointer to member by reference
+  + scope resolution
+  + pointer to member
  			a[0].b->c();
 
 Comments
