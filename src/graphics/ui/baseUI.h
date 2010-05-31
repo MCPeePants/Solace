@@ -13,7 +13,7 @@ namespace graphics{ namespace ui{
     class BaseControl
     {
         public:
-        virtual void Draw(sf::RenderWindow *Context) {};
+        virtual void Draw(sf::RenderWindow& Context) {};
     };
 
     class ControlList
