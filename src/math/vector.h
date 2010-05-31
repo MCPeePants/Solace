@@ -50,7 +50,7 @@ namespace math
     template<typename T> Vector<T> operator/(const Vector<T> &a, T f);
     template<typename T> Vector<T> operator/(T f, const Vector<T> &a);
     // dot
-    template<typename T> T operator%(const Vector<T> &a, const Vector<T> &b);
+    template<typename T> T operator*(const Vector<T> &a, const Vector<T> &b);
 
 }
 #endif

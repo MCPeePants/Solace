@@ -32,7 +32,7 @@ namespace math
     template<typename T> Vector<T> operator/(const Vector<T> &a, T f) { return Vector<T>(a.x()/f, a.y()/f);}
     template<typename T> Vector<T> operator/(T f, const Vector<T> &a) { return Vector<T>(a.x()/f, a.y()/f);}
 
-    template<typename T> T operator%(const Vector<T> &a, const Vector<T> &b){ return (a.x()*b.x() + a.y()*b.y()); }
+    template<typename T> T operator*(const Vector<T> &a, const Vector<T> &b){ return (a.x()*b.x() + a.y()*b.y()); }
 
     template<typename T> void Vector<T>::norm() { T m = mag(); tx /= m; ty /= m;}
     template<typename T> void Vector<T>::setLength(T l){ norm(); tx *= l; ty *= l;}
