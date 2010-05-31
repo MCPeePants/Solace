@@ -251,7 +251,6 @@ binary operators and the ternary operator use spaces between each variable
   + bind pointer to member by reference
   + scope resolution
   + pointer to member
-
  			a[0].b->c();
 
 Comments
