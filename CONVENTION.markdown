@@ -107,20 +107,21 @@ Parentheses and Indentation
 the opening curly bracket is placed in the next line at the same indentation level as the associated control statement
 the closing curly bracket is placed at the same indentation level as the associated opening curly bracket
 *exceptions:*
-* empty function bodies are simply written as {}
-* namespaces are clustered in one line with one space to the right between each declaration and the curly bracket attached
-* the closing brackets may also be clustered in one line with no space between each bracket
-* an empty line follows after the last opening bracket
-* an empty line follows before the first closing bracket
+
++ empty function bodies are simply written as {}
++ namespaces are clustered in one line with one space to the right between each declaration and the curly bracket attached
++ the closing brackets may also be clustered in one line with no space between each bracket
++ an empty line follows after the last opening bracket
++ an empty line follows before the first closing bracket
 		namespace a{ namespace b{ namespace c{
 		
 		//declarations/definitions
 		
  		}}}
-* square brackets (accessing arrays) are used without any additional spaces
++ square brackets (accessing arrays) are used without any additional spaces
 		a[0]++;
-* inequality signs (angle brackets): see either the section **Operators** or **Templates**
-* parentheses are used without any additional spaces
++ inequality signs (angle brackets): see either the section **Operators** or **Templates**
++ parentheses are used without any additional spaces
 		if(a)
 		{
 		  b(c);
@@ -215,16 +216,18 @@ inequality signs (angle brackets) are used without additional spaces
 
 sfter the complete template declaration a new line follows (this also applies to (partial) template specialization)
 **exceptions:**
-* for function declarations and template specialization no new line is used
-* for partial template specialization with multiple template keywords no new line is used, but a space is used in between
+
++ for function declarations and template specialization no new line is used
++ for partial template specialization with multiple template keywords no new line is used, but a space is used in between
 		template<typename A> template<typename B>
-* for a function call or a class instantiation no new line is used
++ for a function call or a class instantiation no new line is used
 		A<int, list> var;
 
 # Semicolons and Commas
 after a semicolon a new line usually follows
 **exceptions:**
-* for-loops just use a single space to their right
+
++ for-loops just use a single space to their right
 		for(std::size_t i = 0; i < 10; ++i)
 
 a comma has a single space to its right
@@ -238,15 +241,16 @@ unary operators use no spaces the operator and the variable
 binary operators and the ternary operator use spaces between each variable
 		a = b ? (c + d) : (c - d);
 **exceptions:**
-* the following operators are used without spaces in between:
-  * function call
-  * array subscript
-  * member
-  * member by pointer
-  * bind pointer to member by pointer
-  * bind pointer to member by reference
-  * scope resolution
-  * pointer to member
+
++ the following operators are used without spaces in between:
+  + function call
+  + array subscript
+  + member
+  + member by pointer
+  + bind pointer to member by pointer
+  + bind pointer to member by reference
+  + scope resolution
+  + pointer to member
  		a[0].b->c();
 
 Comments
