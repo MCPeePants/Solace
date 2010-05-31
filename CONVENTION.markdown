@@ -113,22 +113,22 @@ the closing curly bracket is placed at the same indentation level as the associa
 + the closing brackets may also be clustered in one line with no space between each bracket
 + an empty line follows after the last opening bracket
 + an empty line follows before the first closing bracket
-		namespace a{ namespace b{ namespace c{
-		
-		//declarations/definitions
-		
- 		}}}
+			namespace a{ namespace b{ namespace c{
+			
+			//declarations/definitions
+			
+ 			}}}
 + square brackets (accessing arrays) are used without any additional spaces
-		a[0]++;
+			a[0]++;
 + inequality signs (angle brackets): see either the section **Operators** or **Templates**
 + parentheses are used without any additional spaces
-		if(a)
-		{
-		  b(c);
-		}
-		else
-		{
-		  b(-c);
+			if(a)
+			{
+			  b(c);
+			}
+			else
+			{
+			  b(-c);
 		}
  
 each scope is indented using two spaces
@@ -219,16 +219,16 @@ sfter the complete template declaration a new line follows (this also applies to
 
 + for function declarations and template specialization no new line is used
 + for partial template specialization with multiple template keywords no new line is used, but a space is used in between
-		template<typename A> template<typename B>
+			template<typename A> template<typename B>
 + for a function call or a class instantiation no new line is used
-		A<int, list> var;
+			A<int, list> var;
 
 # Semicolons and Commas
 after a semicolon a new line usually follows
 **exceptions:**
 
 + for-loops just use a single space to their right
-		for(std::size_t i = 0; i < 10; ++i)
+			for(std::size_t i = 0; i < 10; ++i)
 
 a comma has a single space to its right
 note: commas follow the same rule even if they are used as operators
@@ -243,15 +243,15 @@ binary operators and the ternary operator use spaces between each variable
 **exceptions:**
 
 + the following operators are used without spaces in between:
-  + function call
-  + array subscript
-  + member
-  + member by pointer
-  + bind pointer to member by pointer
-  + bind pointer to member by reference
-  + scope resolution
-  + pointer to member
- 		a[0].b->c();
+ + function call
+ + array subscript
+ + member
+ + member by pointer
+ + bind pointer to member by pointer
+ + bind pointer to member by reference
+ + scope resolution
+ + pointer to member
+ 			a[0].b->c();
 
 Comments
 --------
