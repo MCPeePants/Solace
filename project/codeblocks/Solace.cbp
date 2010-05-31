@@ -15,9 +15,9 @@
 					<Add option="-g" />
 				</Compiler>
 				<Linker>
-					<Add option="-lsfml-graphics-s-d" />
-					<Add option="-lsfml-window-s-d" />
-					<Add option="-lsfml-system-s-d" />
+					<Add library="sfml-graphics-s-d" />
+					<Add library="sfml-window-s-d" />
+					<Add library="sfml-system-s-d" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -30,21 +30,28 @@
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
-					<Add option="-lsfml-graphics-s" />
-					<Add option="-lsfml-window-s" />
-					<Add option="-lsfml-system-s" />
+					<Add library="sfml-graphics-s" />
+					<Add library="sfml-window-s" />
+					<Add library="sfml-system-s" />
 				</Linker>
 			</Target>
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
+			<Add directory="..\..\src" />
 		</Compiler>
+<<<<<<< HEAD
 		<Unit filename="..\..\src\graphics\ui\Button.h" />
 		<Unit filename="..\..\src\graphics\ui\baseUI.cpp" />
 		<Unit filename="..\..\src\graphics\ui\baseUI.h" />
+=======
+		<Unit filename="..\..\src\graphics\ui\base.h" />
+		<Unit filename="..\..\src\graphics\ui\base_fwd.h" />
+>>>>>>> 46b09d399501c0ed98d8e517ea1e36a53733d95f
 		<Unit filename="..\..\src\logic\ObjDynamic.h" />
 		<Unit filename="..\..\src\main.cpp" />
+		<Unit filename="..\..\src\math\vector.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />
