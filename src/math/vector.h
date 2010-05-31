@@ -24,12 +24,12 @@ namespace math
         void operator*=(T a);
         void operator/=(T a);
 
-        void norm();
+        void normalize();
         void setLength(T l);
-        T mag();
+        T length();
 
-        T x();
-        T y();
+        T getX();
+        T getY();
         void set(T, T);
 
 
