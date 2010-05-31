@@ -10,7 +10,7 @@ namespace sound{
     private:
     signed short int* samples;
     int samp_sz;
-    ModPlugFile mpFile;
+    ModPlugFile * mpFile;
 
     public:
     XmSound() {}
