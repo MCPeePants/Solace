@@ -18,9 +18,10 @@ void Vector<T>::setLength(T2 len)
   ty *= scale;
 }
 
-template<typename T> Vector<T>::operator sf::Vector2<T>()
+template<typename T> template <typename T2>
+Vector<T>::operator sf::Vector2<T2>()
 {
-  return sf::Vector2<T>( tx, ty );
+  return sf::Vector2<T2>( tx, ty );
 }
 
 template<typename T, typename T2>

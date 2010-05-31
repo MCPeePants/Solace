@@ -53,6 +53,7 @@ namespace math{
     void set(T x, T y){ tx = x; ty = y;}
 
     // Casting to sf::Vector2
+    template<typename T2>
     operator sf::Vector2<T>();
 
     private:
