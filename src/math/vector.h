@@ -5,7 +5,7 @@
 
 #include "math/vector_fwd.h"
 
-class sf::Vector;
+class sf::Vector2;
 
 namespace math{
 
@@ -54,7 +54,7 @@ namespace math{
 
     // Casting to sf::Vector2
     template<typename T2>
-    operator sf::Vector2<T>();
+    operator sf::Vector2<T2>();
 
     private:
     T tx;
