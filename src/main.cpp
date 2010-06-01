@@ -1,13 +1,19 @@
+#include <iostream>
 #include <SFML/Graphics.hpp>
+<<<<<<< HEAD
 
+=======
+>>>>>>> e73104dfc677f40ff997e88e4c02072994331660
 #include "graphics/ui/baseUI.h"
-
 #include "graphics/ui/Button.h"
 
+<<<<<<< HEAD
 // Function declarations //
 #include <iostream>
 
 #include "../src/math/vector.h"
+=======
+>>>>>>> e73104dfc677f40ff997e88e4c02072994331660
 /// Function declarations ///
 void renderScene(sf::RenderWindow&);
 void getEvents(sf::RenderWindow&);
@@ -25,9 +31,6 @@ graphics::ui::Button btn;
 
 int main()
 {
-    math::Vector<float> a(3,1);
-
-
     // Create a window to draw on
     sf::RenderWindow Wnd(sf::VideoMode(gameWidth, gameHeight), "Solace", sf::Style::Close);
     Wnd.SetFramerateLimit(maxFramerate);
@@ -45,6 +48,7 @@ int main()
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 // This function handles all of the game's drawing
 // If possible, do ALL drawing code in here, not
 // outside of it.
@@ -58,11 +62,13 @@ void renderScene(sf::RenderWindow *surface)
 
     surface->Display();
 =======
+=======
+>>>>>>> e73104dfc677f40ff997e88e4c02072994331660
 /// This function handles all of the game's drawing
 /// If possible, do ALL drawing code in here, not
 /// outside of it.
 /// ARGUMENTS:
-///     *Surface => Reference of the context to draw on
+///     &Surface => Reference of the context to draw on
 void renderScene(sf::RenderWindow& surface)
 {
     surface.Clear();
@@ -97,5 +103,8 @@ void getEvents(sf::RenderWindow& window)
 			break;
 		}
 	}
+<<<<<<< HEAD
 >>>>>>> 6dd25ae77c1bdb30fb11270916a668fd04e70d5b
+=======
+>>>>>>> e73104dfc677f40ff997e88e4c02072994331660
 }
