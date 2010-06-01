@@ -57,6 +57,7 @@ template<typename resourceType, typename outerType>
 void Resource<resourceType, outerType>::Loader::Run()
 {
   ScopedLock lock(finishedLoading);
+  
   while(!hasFinishedLoading())
     syncLoad(loadQueue.pop());
 }

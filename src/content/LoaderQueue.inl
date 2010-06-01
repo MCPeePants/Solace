@@ -13,7 +13,8 @@ Resource<resourceType, outerType>::Loader::LoaderQueue::LoaderQueue(SizeType cap
 
 template<typename resourceType, typename outerType>
 Resource<resourceType, outerType>::Loader::LoaderQueue::~LoaderQueue(){}
-/*
+
+#if 0 // obsolete, not well thought through :V
 template<typename resType>
 typename Resource<resType>::Loader::LoaderQueue::QueueValue&
 Resource<resType>::Loader::LoaderQueue::operator[](SizeType n)
@@ -23,14 +24,17 @@ Resource<resType>::Loader::LoaderQueue::operator[](SizeType n)
 #endif
   return innerQueue[n].first();
 }
-*/
+#endif
+
 template<typename resourceType, typename outerType>
 SizeType Resource<resourceType, outerType>::Loader::LoaderQueue::getSize() const
 {
 #if 0
   if(!writeAccess.TryLock())
     return outerSize;
+    
   SizeType ret = innerQueue.size();
+  
   writeAccess.Unlock();
   return ret;
 #else

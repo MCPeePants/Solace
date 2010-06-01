@@ -21,7 +21,7 @@ namespace content{
 
   /* usage: class Classname : public Resource<Classname>
    * {
-   *   friend class Resource<Classname>;
+   *   friend class Resource<Classname>; // uses private functions
    * public:
    *   typedef Resource<Classname> Manager;
    * 
@@ -29,7 +29,7 @@ namespace content{
    *   
    * private:
    *   Classname(); // must be default-constructable
-   *   Classname(ResourceType &data);
+   *   Classname(ResourceType &data); // used by Resource
    *    
    *   static void loadInternal(ResourceType &data, const PathKey &path);
    * };
@@ -39,8 +39,12 @@ namespace content{
    
    // TODO: outerType usually resourceType? ;z33ky
    // TODO: possibly better name for outerType. publicType? usageType? ;z33ky
+   // TODO: rename resourceType to internalType? ;z33ky
    // TODO: bool keepResource && manual resource unloading ;z33ky
    // HACK: I raped OOP pretty badly. Shall I fix? ;z33ky
+   // TODO: add a function to actually start the Loader-thread
+   // TODO: auto-start loading resources
+   // TODO: error-handling
   template<typename resourceType, typename outerType = resourceType>
   class Resource
   {
@@ -53,6 +57,7 @@ namespace content{
   private:
     // TODO: that loader is an adaption from a more general-purpose one I wrote before
     //  there's probably stuff to remove from there, though they look useful ;z33ky
+    // TODO: public accessors in Resource for finishLoading 'n stuff ;z33ky
     class Loader : sf::Thread
     {
       typedef sf::Lock ScopedLock;
@@ -105,19 +110,20 @@ namespace content{
       sf::Mutex finishedLoading;
     };
   public:
-    // TODO: name this just Path?
+    // TODO: name this just Path? ;z33ky
     typedef typename ResourceList::key_type PathKey;
     
     Resource(ResourceListEntry entry);
     virtual ~Resource();
     
     // TODO: return iterator? ;z33ky
-    //  ^- or additionally for static void latePrecache? ;z33ky
+    //  ^- or additionally for static latePrecache? ;z33ky
     //  ^- differentiate between precache and get at all? ;z33ky
     static void precache(const PathKey &key);
     static outerType get(const PathKey &key);
     
   private:
+    // TODO: write accessor for listEntry ;z33ky
     ResourceListEntry listEntry;
     static Loader loader;
     static ResourceList resourceList;

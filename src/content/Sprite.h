@@ -17,6 +17,7 @@ namespace content{
   public:
     // we need this because static functions are not inherited
     // ^- alternative: typedef it outside of Sprite
+    // ^- second alternative: provide own static functions
     typedef Resource<sf::Image, Sprite> Manager;
   private:
     Sprite(ResourceListEntry entry):Manager(entry), spr(entry->second.first){}
