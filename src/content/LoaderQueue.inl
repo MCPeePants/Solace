@@ -5,40 +5,59 @@
 #include <SFML/System/Mutex.hpp>
 #include <SFML/System/Thread.hpp>
 
-#define ResLoaderQueue(ret) template<typename restype> ret Resource<restype>::Manager::Loader::LoaderQueue
-//#define ResLoaderQueueSpec(ret, spec) template<> ret Resource<spec>::Manager::Loader::LoaderQueue
-#define NULLARG
-
-ResLoaderQueue(NULLARG)::LoaderQueue(SizeType n)
+template<typename resourceType, typename outerType>
+Resource<resourceType, outerType>::Loader::LoaderQueue::LoaderQueue(SizeType capacity)
 {
-  innerQueue.reserve(n);
+  //innerQueue.reserve(capacity);
 }
 
-ResLoaderQueue(NULLARG)::~LoaderQueue(){}
-
-#undef NULLARG
-
-template<typename restype>
-typename Resource<restype>::Manager::Loader::LoaderQueue::Queue::value_type::first_type&
-Resource<restype>::Manager::Loader::LoaderQueue::operator[](SizeType n)
+template<typename resourceType, typename outerType>
+Resource<resourceType, outerType>::Loader::LoaderQueue::~LoaderQueue(){}
+/*
+template<typename resType>
+typename Resource<resType>::Loader::LoaderQueue::QueueValue&
+Resource<resType>::Loader::LoaderQueue::operator[](SizeType n)
 {
 #ifdef DEBUG
-  assert(n < outerSize);
+  assert(n < getSize());
 #endif
   return innerQueue[n].first();
 }
-
-ResLoaderQueue(SizeType)::getSize()
+*/
+template<typename resourceType, typename outerType>
+SizeType Resource<resourceType, outerType>::Loader::LoaderQueue::getSize() const
 {
-  ScopedLock(brb);
+#if 0
+  if(!writeAccess.TryLock())
+    return outerSize;
+  SizeType ret = innerQueue.size();
+  writeAccess.Unlock();
+  return ret;
+#else
+  ScopedLock lock(writeAccess);
   return innerQueue.size();
+#endif
 }
 
-ResLoaderQueue(SizeType)::getCapacity()
+template<typename resourceType, typename outerType>
+void Resource<resourceType, outerType>::Loader::LoaderQueue::push(QueueValue &elem)
 {
-  ScopedLock(brb);
-  return innerQueue.capacity();
+  ScopedLock lock(writeAccess);
+  innerQueue.push_back(elem);
 }
 
-#undef ResLoaderQueue
-#undef ResLoaderQueueSpec
+template<typename resourceType, typename outerType>
+void Resource<resourceType, outerType>::Loader::LoaderQueue::push(const std::vector<QueueValue> &elems)
+{
+  ScopedLock(writeAccess);
+  innerQueue.insert(innerQueue.back(), elems.begin(), elems.end());
+}
+
+template<typename resourceType, typename outerType>
+typename Resource<resourceType, outerType>::Loader::LoaderQueue::QueueValue&
+Resource<resourceType, outerType>::Loader::LoaderQueue::pop()
+{
+  QueueValue &elem = innerQueue.front();
+  innerQueue.pop_front();
+  return elem;
+}

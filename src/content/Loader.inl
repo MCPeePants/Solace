@@ -5,16 +5,58 @@
 #include <SFML/System/Mutex.hpp>
 #include <SFML/System/Thread.hpp>
 
-#define ResLoader(ret) template<typename restype> ret Resource<restype>::Manager::Loader
-//#define ResLoaderSpec(ret, spec) template<> ret Resource<spec>::Manager::Loader
-#define NULLARG
-
-ResLoader(NULLARG)::Loader()
+template<typename resourceType, typename outerType>
+Resource<resourceType, outerType>::Loader::Loader()
   :loadQueue(){}
 
-ResLoader(NULLARG)::~Loader(){}
+template<typename resourceType, typename outerType>
+Resource<resourceType, outerType>::Loader::~Loader(){}
 
-#undef NULLARG
+template<typename resourceType, typename outerType>
+void Resource<resourceType, outerType>::Loader::asyncLoad(typename Resource<resourceType, outerType>::ResList::value_type &resource)
+{
+  loadQueue.push(resource);
+}
 
-#undef ResLoader
-#undef ResLoaderSpec
+template<typename resourceType, typename outerType>
+void Resource<resourceType, outerType>::Loader::asyncLoad(const std::vector<typename Resource<resourceType, outerType>::ResList::value_type> &resources)
+{
+  //TODO: look for a neat copying function
+  for(typename std::vector<typename Resource<resourceType, outerType>::ResList::value_type>::iterator iter = resources.begin();
+      iter != resources.end(); ++iter)
+    asyncLoad(*iter);
+}
+
+template<typename resourceType, typename outerType>
+void Resource<resourceType, outerType>::Loader::syncLoad(typename Resource<resourceType, outerType>::ResList::value_type &resource)
+{
+  outerType::loadInternal(resource.second.first, resource.first);
+}
+
+template<typename resourceType, typename outerType>
+void Resource<resourceType, outerType>::Loader::syncLoad(const std::vector<typename Resource<resourceType, outerType>::ResList::value_type> &resources)
+{
+  for(typename std::vector<typename Resource<resourceType, outerType>::ResList::value_type>::iterator iter = resources.begin();
+      iter != resources.end(); ++iter)
+    syncLoad(*iter);
+}
+
+template<typename resourceType, typename outerType>
+void Resource<resourceType, outerType>::Loader::finishLoading() const
+{
+  ScopedLock(finishedLoading);
+}
+
+template<typename resourceType, typename outerType>
+bool Resource<resourceType, outerType>::Loader::hasFinishedLoading() const
+{
+  return loadQueue.getSize() == 0;
+}
+
+template<typename resourceType, typename outerType>
+void Resource<resourceType, outerType>::Loader::Run()
+{
+  ScopedLock lock(finishedLoading);
+  while(!hasFinishedLoading())
+    syncLoad(loadQueue.pop());
+}
