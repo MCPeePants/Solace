@@ -1,23 +1,13 @@
 #include <iostream>
-#include <SFML/Graphics.hpp>
-<<<<<<< HEAD
 
-=======
->>>>>>> e73104dfc677f40ff997e88e4c02072994331660
-#include "graphics/ui/baseUI.h"
+#include <SFML/Graphics.hpp>
+
+#include "graphics/ui/base.h"
 #include "graphics/ui/Button.h"
 
-<<<<<<< HEAD
-// Function declarations //
-#include <iostream>
-
-#include "../src/math/vector.h"
-=======
->>>>>>> e73104dfc677f40ff997e88e4c02072994331660
-/// Function declarations ///
+// Function declarations
 void renderScene(sf::RenderWindow&);
 void getEvents(sf::RenderWindow&);
-/// ///
 
 // Window width and height
 int gameWidth = 1024;
@@ -26,16 +16,13 @@ int gameHeight = 768;
 // Framerate cap
 int maxFramerate = 60;
 
-/// REMOVE ME
-graphics::ui::Button btn;
-
 int main()
 {
     // Create a window to draw on
     sf::RenderWindow Wnd(sf::VideoMode(gameWidth, gameHeight), "Solace", sf::Style::Close);
     Wnd.SetFramerateLimit(maxFramerate);
 
-    // CORE GAME LOOP //
+    // Main loop
     while(Wnd.IsOpened())
     {
         // Process window events
@@ -47,38 +34,21 @@ int main()
     return 0;
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 // This function handles all of the game's drawing
 // If possible, do ALL drawing code in here, not
 // outside of it.
 // ARGUMENTS:
 //     *Surface => Pointer to the window to draw on
-void renderScene(sf::RenderWindow *surface)
-{
-    surface->Clear();
-
-    btn.Draw(surface);
-
-    surface->Display();
-=======
-=======
->>>>>>> e73104dfc677f40ff997e88e4c02072994331660
-/// This function handles all of the game's drawing
-/// If possible, do ALL drawing code in here, not
-/// outside of it.
-/// ARGUMENTS:
-///     &Surface => Reference of the context to draw on
 void renderScene(sf::RenderWindow& surface)
 {
     surface.Clear();
     surface.Display();
 }
 
-/// This function handles any Events/Inputs thrown to the game
-/// Do any input code here
-/// Arguments are window => Window to register inputs from
-/// THANKS TO JA_COP FOR HELPING ME OUT WITH THIS :)
+// This function handles any Events/Inputs thrown to the game
+// Do any input code here
+// Arguments are window => Window to register inputs from
+// THANKS TO JA_COP FOR HELPING ME OUT WITH THIS :)
 void getEvents(sf::RenderWindow& window)
 {
 	sf::Event event;
@@ -103,8 +73,4 @@ void getEvents(sf::RenderWindow& window)
 			break;
 		}
 	}
-<<<<<<< HEAD
->>>>>>> 6dd25ae77c1bdb30fb11270916a668fd04e70d5b
-=======
->>>>>>> e73104dfc677f40ff997e88e4c02072994331660
 }
