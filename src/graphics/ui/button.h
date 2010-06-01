@@ -1,3 +1,5 @@
+#ifndef SLC_GRAPHICS_UI_BUTTON_H
+#define SLC_GRAPHICS_UI_BUTTON_H
 #include "base.h"
 
 namespace graphics{ namespace ui{ // This is so damn ugly
@@ -18,3 +20,4 @@ namespace graphics{ namespace ui{ // This is so damn ugly
 		void setText(std::string text);
 	};
 }}
+#endif // SLC_GRAPHICS_UI_BUTTON_H
