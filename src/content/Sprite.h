@@ -11,23 +11,31 @@ namespace content{
   
   // sample using Resource
   // bad sample.. inlined constructors 'n stuff
-  class Sprite
+  class Sprite : Resource<sf::Image, Sprite>
   {
     friend class Resource<sf::Image, Sprite>;
-    typedef Resource<sf::Image, Sprite>::Key Key;
-    typedef Resource<sf::Image, Sprite>::ResList::mapped_type ResImage;
-    Sprite(ResImage &image):img(image), spr(img.first){ ++img.second;}
   public:
-    ~Sprite(){ --img.second;}
+    // we need this because static functions are not inherited
+    // ^- alternative: typedef it outside of Sprite
+    typedef Resource<sf::Image, Sprite> Manager;
   private:
-    static void loadInternal(sf::Image &img, const Key &path){ img.LoadFromFile(path.string());}
+    Sprite(ResourceListEntry entry):Manager(entry), spr(entry->second.first){}
+    
+  public:
+    // put on hold, kinda ugly
+    // Sprite(const PathKey &path):Manager((Manager::precache(path), Manager::get(path))), spr(listEntry.second.first){}
+    ~Sprite(){}
+    
+    // void Draw(); and what not would come here
     
   private:
-    ResImage &img;
+    // TODO: ResourceLoadError loadInternal(...);
+    static void loadInternal(ResourceType &img, const PathKey &path){ img.LoadFromFile(path.string());}
+    static void unloadInternal(ResourceType &img){ }
+    
+  private:
     sf::Sprite spr;
   };
-  
-  typedef Resource<sf::Image, Sprite> SpriteRes;
   
 }
 

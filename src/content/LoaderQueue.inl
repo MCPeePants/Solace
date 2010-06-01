@@ -40,24 +40,24 @@ SizeType Resource<resourceType, outerType>::Loader::LoaderQueue::getSize() const
 }
 
 template<typename resourceType, typename outerType>
-void Resource<resourceType, outerType>::Loader::LoaderQueue::push(QueueValue &elem)
+void Resource<resourceType, outerType>::Loader::LoaderQueue::push(ResourceListEntry elem)
 {
   ScopedLock lock(writeAccess);
   innerQueue.push_back(elem);
 }
 
 template<typename resourceType, typename outerType>
-void Resource<resourceType, outerType>::Loader::LoaderQueue::push(const std::vector<QueueValue> &elems)
+void Resource<resourceType, outerType>::Loader::LoaderQueue::push(const std::vector<ResourceListEntry> &elems)
 {
   ScopedLock(writeAccess);
   innerQueue.insert(innerQueue.back(), elems.begin(), elems.end());
 }
 
 template<typename resourceType, typename outerType>
-typename Resource<resourceType, outerType>::Loader::LoaderQueue::QueueValue&
+typename Resource<resourceType, outerType>::ResourceListEntry
 Resource<resourceType, outerType>::Loader::LoaderQueue::pop()
 {
-  QueueValue &elem = innerQueue.front();
+  ResourceListEntry front = innerQueue.front();
   innerQueue.pop_front();
-  return elem;
+  return front;
 }

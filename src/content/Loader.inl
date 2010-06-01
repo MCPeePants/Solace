@@ -13,30 +13,30 @@ template<typename resourceType, typename outerType>
 Resource<resourceType, outerType>::Loader::~Loader(){}
 
 template<typename resourceType, typename outerType>
-void Resource<resourceType, outerType>::Loader::asyncLoad(typename Resource<resourceType, outerType>::ResList::value_type &resource)
+void Resource<resourceType, outerType>::Loader::asyncLoad(ResourceListEntry resource)
 {
   loadQueue.push(resource);
 }
 
 template<typename resourceType, typename outerType>
-void Resource<resourceType, outerType>::Loader::asyncLoad(const std::vector<typename Resource<resourceType, outerType>::ResList::value_type> &resources)
+void Resource<resourceType, outerType>::Loader::asyncLoad(const std::vector<ResourceListEntry> &resources)
 {
   //TODO: look for a neat copying function
-  for(typename std::vector<typename Resource<resourceType, outerType>::ResList::value_type>::iterator iter = resources.begin();
+  for(typename std::vector<ResourceListEntry>::iterator iter = resources.begin();
       iter != resources.end(); ++iter)
     asyncLoad(*iter);
 }
 
 template<typename resourceType, typename outerType>
-void Resource<resourceType, outerType>::Loader::syncLoad(typename Resource<resourceType, outerType>::ResList::value_type &resource)
+void Resource<resourceType, outerType>::Loader::syncLoad(ResourceListEntry resource)
 {
-  outerType::loadInternal(resource.second.first, resource.first);
+  outerType::loadInternal(resource->second.first, resource->first);
 }
 
 template<typename resourceType, typename outerType>
-void Resource<resourceType, outerType>::Loader::syncLoad(const std::vector<typename Resource<resourceType, outerType>::ResList::value_type> &resources)
+void Resource<resourceType, outerType>::Loader::syncLoad(const std::vector<ResourceListEntry> &resources)
 {
-  for(typename std::vector<typename Resource<resourceType, outerType>::ResList::value_type>::iterator iter = resources.begin();
+  for(typename std::vector<ResourceListEntry>::iterator iter = resources.begin();
       iter != resources.end(); ++iter)
     syncLoad(*iter);
 }
@@ -44,7 +44,7 @@ void Resource<resourceType, outerType>::Loader::syncLoad(const std::vector<typen
 template<typename resourceType, typename outerType>
 void Resource<resourceType, outerType>::Loader::finishLoading() const
 {
-  ScopedLock(finishedLoading);
+  ScopedLock lock(finishedLoading);
 }
 
 template<typename resourceType, typename outerType>

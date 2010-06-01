@@ -22,22 +22,37 @@ namespace content{
   /* usage: class Classname : public Resource<Classname>
    * {
    *   friend class Resource<Classname>;
-   *   //...
-   *   void loadInternal(const typename Resource<Classname>::ResList::key_type &path);
-   * }*/
-   // TODO: major clean up, esp. typedefs! ;z33ky
-   // TODO: outerType usually resourceType?
-   // TODO: possibly better name for outerType. publicType? usageType?
+   * public:
+   *   typedef Resource<Classname> Manager;
+   * 
+   *   ~Classname();
+   *   
+   * private:
+   *   Classname(); // must be default-constructable
+   *   Classname(ResourceType &data);
+   *    
+   *   static void loadInternal(ResourceType &data, const PathKey &path);
+   * };
+   * 
+   * Classname::Manager::precache("/path/resource");
+   * Classname instance(Classname::Manager::get("/path/resource"));*/
+   
+   // TODO: outerType usually resourceType? ;z33ky
+   // TODO: possibly better name for outerType. publicType? usageType? ;z33ky
+   // TODO: bool keepResource && manual resource unloading ;z33ky
+   // HACK: I raped OOP pretty badly. Shall I fix? ;z33ky
   template<typename resourceType, typename outerType = resourceType>
   class Resource
   {
-    // friend class outerType;
-    // urgs
-    public:
-    typedef std::map<Path, std::pair<resourceType, SizeType> > ResList;
-    private:
+    typedef std::map<Path, std::pair<resourceType, SizeType> > ResourceList;
+    
+  protected:
+    typedef resourceType ResourceType;
+    typedef typename ResourceList::iterator ResourceListEntry;
+    
+  private:
     // TODO: that loader is an adaption from a more general-purpose one I wrote before
-    // there's probably stuff to remove from there, though they look useful ;z33ky
+    //  there's probably stuff to remove from there, though they look useful ;z33ky
     class Loader : sf::Thread
     {
       typedef sf::Lock ScopedLock;
@@ -45,70 +60,75 @@ namespace content{
       // one thread writes, multiple can read
       class LoaderQueue
       {
-        typedef std::deque<typename Resource<resourceType, outerType>::ResList::value_type> Queue;
-        typedef typename Queue::value_type QueueValue;
+        friend class Loader;
+        
+        typedef std::deque<ResourceListEntry> Queue;
+        // typedef typename Queue::value_type QueueValue;
         typedef sf::Mutex Mutex;
         typedef sf::Lock ScopedLock;
-        
-        friend class Loader;
       public:
+        
         LoaderQueue(const SizeType n = 0);
         ~LoaderQueue();
           
         //QueueValue& operator[](const SizeType capacity);
-          
         SizeType getSize() const;
           
       private:
-        void push(QueueValue &elem);
-        void push(const std::vector<QueueValue> &elems);
-        QueueValue& pop();
+        void push(ResourceListEntry elem);
+        void push(const std::vector<ResourceListEntry> &elems);
+        ResourceListEntry pop();
+        
       private:
         Queue innerQueue;
-        mutable Mutex writeAccess;
+        mutable Mutex writeAccess; // mutable so we can have getSize constant
         //SizeType outerSize;
       };
     public:
       Loader();
       ~Loader();
         
-      void asyncLoad(typename Resource<resourceType, outerType>::ResList::value_type &resource);
-      void asyncLoad(const std::vector<typename Resource<resourceType, outerType>::ResList::value_type> &resources);
-      static void syncLoad(typename Resource<resourceType, outerType>::ResList::value_type &resource);
-      static void syncLoad(const std::vector<typename Resource<resourceType, outerType>::ResList::value_type> &resources);
+      void asyncLoad(ResourceListEntry resource);
+      void asyncLoad(const std::vector<ResourceListEntry> &resources);
+      static void syncLoad(ResourceListEntry resource);
+      static void syncLoad(const std::vector<ResourceListEntry> &resources);
         
       void finishLoading() const;
       bool hasFinishedLoading() const;
 
     private:
       void Run();
-      static void loadInternal(typename Resource<resourceType, outerType>::ResList::value_type &resource);
+      static void loadInternal(ResourceListEntry resource);
 
     private:
       LoaderQueue loadQueue;
       sf::Mutex finishedLoading;
     };
   public:
-    Resource();
-    ~Resource();
+    // TODO: name this just Path?
+    typedef typename ResourceList::key_type PathKey;
     
-    typedef typename ResList::key_type Key;
+    Resource(ResourceListEntry entry);
+    virtual ~Resource();
     
-    static void precache(const Key &key);
-    static outerType get(const typename ResList::key_type &key);
-    
-  protected:
-    static ResList& getResourceList(){ return resourceList; }
+    // TODO: return iterator? ;z33ky
+    //  ^- or additionally for static void latePrecache? ;z33ky
+    //  ^- differentiate between precache and get at all? ;z33ky
+    static void precache(const PathKey &key);
+    static outerType get(const PathKey &key);
     
   private:
+    ResourceListEntry listEntry;
     static Loader loader;
-    static ResList resourceList;
+    static ResourceList resourceList;
   };
   
+  // static members of Resource
   template<typename resourceType, typename outerType>
   typename Resource<resourceType, outerType>::Loader Resource<resourceType, outerType>::loader;
+
   template<typename resourceType, typename outerType>
-  typename Resource<resourceType, outerType>::ResList Resource<resourceType, outerType>::resourceList;
+  typename Resource<resourceType, outerType>::ResourceList Resource<resourceType, outerType>::resourceList;
 
 #include "content/Resource.inl"
 #include "content/LoaderQueue.inl"
