@@ -1,7 +1,7 @@
 #ifndef SLC_SOUND_XM_H
 #define SLC_SOUND_XM_H
 
-#include "modplug.h"
+#include "libmodplug/modplug.h"
 
 namespace sound{
 
