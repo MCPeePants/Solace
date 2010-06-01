@@ -9,6 +9,8 @@
 
 namespace content{
   
+  // sample using Resource
+  // bad sample.. inlined constructors 'n stuff
   class Sprite
   {
     friend class Resource<sf::Image, Sprite>;

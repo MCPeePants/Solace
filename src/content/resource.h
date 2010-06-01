@@ -31,7 +31,8 @@ namespace content{
   template<typename resourceType, typename outerType = resourceType>
   class Resource
   {
-    //friend class outerType;
+    // friend class outerType;
+    // urgs
     public:
     typedef std::map<Path, std::pair<resourceType, SizeType> > ResList;
     private:
