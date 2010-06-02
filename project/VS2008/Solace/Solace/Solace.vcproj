@@ -181,6 +181,38 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="math"
+				>
+				<File
+					RelativePath="..\..\..\..\src\math\vector.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\..\src\math\vector_fwd.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="graphics"
+				>
+				<Filter
+					Name="ui"
+					>
+					<File
+						RelativePath="..\..\..\..\src\graphics\ui\baseUI.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\..\src\graphics\ui\baseUI.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\..\src\graphics\ui\Button.h"
+						>
+					</File>
+				</Filter>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Resource Files"
