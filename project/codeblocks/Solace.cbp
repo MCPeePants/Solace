@@ -41,6 +41,7 @@
 			<Add option="-fexceptions" />
 			<Add directory="..\..\src" />
 		</Compiler>
+		<Unit filename="..\..\src\graphics\ui\base.cpp" />
 		<Unit filename="..\..\src\graphics\ui\base.h" />
 		<Unit filename="..\..\src\graphics\ui\base_fwd.h" />
 		<Unit filename="..\..\src\graphics\ui\button.h" />

@@ -7,7 +7,7 @@
 namespace graphics{ namespace ui{
 	class Button : BaseControl {
 	private:
-		void draw(sf::RenderWindow& context);
+		virtual void draw(sf::RenderWindow& context);
 
 	public:
 		void setText(std::string text);
