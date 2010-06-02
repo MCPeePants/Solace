@@ -28,12 +28,10 @@ void Resource<resourceType, outerType>::precache(const PathKey &path)
   typedef typename Resource<resourceType, outerType>::ResourceList::value_type Entry;
   typedef typename Resource<resourceType, outerType>::ResourceList::mapped_type SubEntry;
   
-  // TODO: try out resourceList.equal_range? ;z33ky
-  ResourceListEntry iter = resourceList.lower_bound(path);
+  std::pair<ResourceListEntry, bool> insertion = resourceList.insert(Entry(path, SubEntry(resourceType(), 0)));
   
-  if(++iter != resourceList.end() && resourceList.key_comp()(iter->first, path)) return;
-  
-  loader.asyncLoad(resourceList.insert(--iter, Entry(path, SubEntry(resourceType(), 0))));
+  if(insertion.second)
+    loader.asyncLoad(insertion.first);
 }
 
 template<typename resourceType, typename outerType>

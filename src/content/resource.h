@@ -2,6 +2,7 @@
 #define SLC_CONTENT_RESOURCE_H
 
 #include <cstddef>
+#include <tr1/unordered_map>
 #include <map>
 #include <queue>
 
@@ -18,6 +19,13 @@ namespace content{
   // TODO: move this somewhere more appropriate ;z33ky
   typedef std::size_t SizeType;
   typedef boost::filesystem::path Path;
+  struct PathHasher : public std::tr1::hash<Path::string_type>
+  {
+    result_type operator()(const Path &key) const
+    {
+      return operator()(key.string());
+    }
+  };
 
   /* usage: class Classname : public Resource<Classname>
    * {
@@ -45,10 +53,11 @@ namespace content{
    // TODO: add a function to actually start the Loader-thread
    // TODO: auto-start loading resources
    // TODO: error-handling
+   // TODO: handling directories
   template<typename resourceType, typename outerType = resourceType>
   class Resource
   {
-    typedef std::map<Path, std::pair<resourceType, SizeType> > ResourceList;
+    typedef std::tr1::unordered_map<Path, std::pair<resourceType, SizeType>, PathHasher> ResourceList;
     
   protected:
     typedef resourceType ResourceType;
