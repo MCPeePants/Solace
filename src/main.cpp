@@ -44,20 +44,6 @@ int main()
     return 0;
 }
 
-<<<<<<< HEAD
-// This function handles all of the game's drawing
-// If possible, do ALL drawing code in here, not
-// outside of it.
-// ARGUMENTS:
-//     *Surface => Pointer to the window to draw on
-void renderScene(sf::RenderWindow *surface)
-{
-    surface->Clear();
-
-    btn.Draw(surface);
-
-    surface->Display();
-=======
 /// This function handles all of the game's drawing
 /// If possible, do ALL drawing code in here, not
 /// outside of it.
@@ -97,5 +83,4 @@ void getEvents(sf::RenderWindow& window)
 			break;
 		}
 	}
->>>>>>> 6dd25ae77c1bdb30fb11270916a668fd04e70d5b
 }
