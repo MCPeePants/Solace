@@ -7,26 +7,21 @@
 // Function declarations //
 #include <iostream>
 
-#include "../src/math/vector.h"
 /// Function declarations ///
 void renderScene(sf::RenderWindow&);
 void getEvents(sf::RenderWindow&);
 /// ///
 
-// Window width and height
-int gameWidth = 1024;
-int gameHeight = 768;
-
-// Framerate cap
-int maxFramerate = 60;
-
-/// REMOVE ME
-graphics::ui::Button btn;
-
 int main()
 {
-    math::Vector<float> a(3,1);
-
+    int gameWidth, gameHeight;
+    int maxFramerate;
+    {
+        config::Config conf("config.lua");
+        gameWidth = conf["width"].integer();
+        gameHeight = conf["height"].integer();
+        maxFramerate = conf["framerate"].integer();
+    }
 
     // Create a window to draw on
     sf::RenderWindow Wnd(sf::VideoMode(gameWidth, gameHeight), "Solace", sf::Style::Close);
