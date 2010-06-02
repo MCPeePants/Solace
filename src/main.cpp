@@ -24,16 +24,16 @@ int main()
     }
 
     // Create a window to draw on
-    sf::RenderWindow Wnd(sf::VideoMode(gameWidth, gameHeight), "Solace", sf::Style::Close);
-    Wnd.SetFramerateLimit(maxFramerate);
+    sf::RenderWindow window(sf::VideoMode(gameWidth, gameHeight), "Solace", sf::Style::Close);
+    window.SetFramerateLimit(maxFramerate);
 
     // CORE GAME LOOP //
-    while(Wnd.IsOpened())
+    while(window.IsOpened())
     {
         // Process window events
-        getEvents(Wnd);
+        getEvents(window);
         // Render the game onto the current window
-        renderScene(Wnd);
+        renderScene(window);
     }
 
     return 0;
