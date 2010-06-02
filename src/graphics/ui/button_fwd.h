@@ -1,0 +1,6 @@
+#ifndef SLC_GRAPHICS_UI_BUTTON_FWD_H
+#define SLC_GRAPHICS_UI_BUTTON_FWD_H
+
+class Button;
+
+#endif // SLC_GRAPHICS_UI_BUTTON_FWD_H
