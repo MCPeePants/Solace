@@ -2,15 +2,16 @@
 #define SLC_CONTENT_RESOURCE_H
 
 #include <cstddef>
-#include <tr1/unordered_map>
 #include <map>
 #include <queue>
+#include <tr1/unordered_map>
 
 #include <SFML/System/Lock.hpp>
 #include <SFML/System/Mutex.hpp>
 #include <SFML/System/Thread.hpp>
 
 #include <boost/filesystem.hpp>
+//#include <boost/functional/hash.hpp>
 
 #include "content/resource_fwd.h"
 
@@ -19,6 +20,7 @@ namespace content{
   // TODO: move this somewhere more appropriate ;z33ky
   typedef std::size_t SizeType;
   typedef boost::filesystem::path Path;
+  // std::tr1::hash vs boost::hash ?
   struct PathHasher : public std::tr1::hash<Path::string_type>
   {
     result_type operator()(const Path &key) const
@@ -49,15 +51,17 @@ namespace content{
    // TODO: possibly better name for outerType. publicType? usageType? ;z33ky
    // TODO: rename resourceType to internalType? ;z33ky
    // TODO: bool keepResource && manual resource unloading ;z33ky
-   // HACK: I raped OOP pretty badly. Shall I fix? ;z33ky
-   // TODO: add a function to actually start the Loader-thread
-   // TODO: auto-start loading resources
-   // TODO: error-handling
-   // TODO: handling directories
+   // HACK: Parent-class (Resource) requires knowledge of Child-class and must be friended
+   //   therefore, extenstion is made easy ;z33ky
+   // TODO: add a function to actually start the Loader-thread ;z33ky
+   // TODO: auto-start loading resources ;z33ky
+   // TODO: error-handling ;z33ky
+   // TODO: handling directories ;z33ky
+   //   ^- boost/regex/vr/fileiter.hpp -> boost::file_iterator and if(str.back() == boost::filesystem::slash<Path>) str.push_back('*'); or something
   template<typename resourceType, typename outerType = resourceType>
   class Resource
   {
-    typedef std::tr1::unordered_map<Path, std::pair<resourceType, SizeType>, PathHasher> ResourceList;
+    typedef std::tr1::unordered_map<Path, std::pair<resourceType, SizeType>, PathHasher > ResourceList;
     
   protected:
     typedef resourceType ResourceType;

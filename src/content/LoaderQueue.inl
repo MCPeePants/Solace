@@ -8,6 +8,7 @@
 template<typename resourceType, typename outerType>
 Resource<resourceType, outerType>::Loader::LoaderQueue::LoaderQueue(SizeType capacity)
 {
+  // TODO: can we not reserve memory? ;z33ky
   //innerQueue.reserve(capacity);
 }
 
