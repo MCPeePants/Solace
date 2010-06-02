@@ -10,12 +10,12 @@ namespace lua{
         m_error = error;
     }
 
-    const char* LuaException::what()
+    const char* LuaException::what() const throw()
     {
         return m_what;
     }
 
-    int LuaException::errorCode()
+    int LuaException::errorCode() const throw()
     {
         return m_error;
     }

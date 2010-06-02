@@ -13,8 +13,8 @@ namespace lua{
         public:
         LuaException(int error, const char* msg);
 
-        virtual const char* what();
-        int errorCode();
+        virtual const char* what() const throw();
+        int errorCode() const throw();
     };
 }
 #endif
