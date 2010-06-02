@@ -1,11 +1,7 @@
 #include <SFML/Graphics.hpp>
+#include <SFML/Window.hpp>
 
-#include "graphics/ui/baseUI.h"
-
-#include "graphics/ui/Button.h"
-
-// Function declarations //
-#include <iostream>
+#include "config/config.h"
 
 /// Function declarations ///
 void renderScene(sf::RenderWindow&);
@@ -16,15 +12,21 @@ int main()
 {
     int gameWidth, gameHeight;
     int maxFramerate;
+    bool fullscreen;
     {
         config::Config conf("config.lua");
-        gameWidth = conf["width"].integer();
-        gameHeight = conf["height"].integer();
-        maxFramerate = conf["framerate"].integer();
+        gameWidth = conf.get("width", 800);
+        gameHeight = conf.get("height", 600);
+        maxFramerate = conf.get("framerate", 60);
+        fullscreen = conf.get("fullscreen", false);
     }
 
+    int style = sf::Style::Close;
+    if(fullscreen)
+        style |= sf::Style::Fullscreen;
+
     // Create a window to draw on
-    sf::RenderWindow window(sf::VideoMode(gameWidth, gameHeight), "Solace", sf::Style::Close);
+    sf::RenderWindow window(sf::VideoMode(gameWidth, gameHeight), "Solace", style);
     window.SetFramerateLimit(maxFramerate);
 
     // CORE GAME LOOP //

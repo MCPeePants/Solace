@@ -17,6 +17,11 @@ namespace config{
         ConfigValue getValue(const std::string& key);
         ConfigValue operator[](const std::string& key);
 
+        std::string get(const std::string& key, const std::string& def);
+        double get(const std::string& key, double def);
+        int get(const std::string& key, int def);
+        bool get(const std::string& key, bool def);
+
         private:
         lua_State* L;
         int env;

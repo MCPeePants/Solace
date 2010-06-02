@@ -31,4 +31,28 @@ namespace config{
     {
         return getValue(key);
     }
+
+    std::string Config::get(const std::string& key, const std::string& def)
+    {
+        ConfigValue v = getValue(key);
+        return v.isNull()? def : v.string();
+    }
+
+    double Config::get(const std::string& key, double def)
+    {
+        ConfigValue v = getValue(key);
+        return v.isNull()? def : v.number();
+    }
+
+    int Config::get(const std::string& key, int def)
+    {
+        ConfigValue v = getValue(key);
+        return v.isNull()? def : v.integer();
+    }
+
+    bool Config::get(const std::string& key, bool def)
+    {
+        ConfigValue v = getValue(key);
+        return v.isNull()? def : v.boolean();
+    }
 }
