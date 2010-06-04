@@ -45,4 +45,9 @@ void BaseControl::setHeight(float tempHeight)
     height = tempHeight;
 }
 
+void ControlList::add(BaseControl& control)
+{
+    controls.push_back(&control);
+}
+
 }}
