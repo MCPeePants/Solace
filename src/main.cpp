@@ -1,13 +1,8 @@
 #include <SFML/Graphics.hpp>
 
-#include "graphics/ui/baseUI.h"
-
-#include "graphics/ui/Button.h"
-
 // Function declarations //
 #include <iostream>
 
-#include "../src/math/vector.h"
 /// Function declarations ///
 void renderScene(sf::RenderWindow&);
 void getEvents(sf::RenderWindow&);
@@ -20,14 +15,8 @@ int gameHeight = 768;
 // Framerate cap
 int maxFramerate = 60;
 
-/// REMOVE ME
-graphics::ui::Button btn;
-
 int main()
 {
-    math::Vector<float> a(3,1);
-
-
     // Create a window to draw on
     sf::RenderWindow Wnd(sf::VideoMode(gameWidth, gameHeight), "Solace", sf::Style::Close);
     Wnd.SetFramerateLimit(maxFramerate);
