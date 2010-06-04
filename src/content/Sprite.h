@@ -20,11 +20,10 @@ namespace content{
     // ^- second alternative: provide own static functions
     typedef Resource<sf::Image, Sprite> Manager;
   private:
-    Sprite(ResourceListEntry entry):Manager(entry), spr(entry->second.first){}
+    Sprite(ResourceListEntry entry):Manager(entry), spr(getResource()){}
     
   public:
-    // put on hold, kinda ugly
-    // Sprite(const PathKey &path):Manager((Manager::precache(path), Manager::get(path))), spr(listEntry.second.first){}
+    Sprite(const PathKey &path):Manager(path), spr(getResource()){}
     ~Sprite(){}
     
     // void Draw(); and what not would come here

@@ -7,7 +7,7 @@
 
 template<typename resourceType, typename outerType>
 Resource<resourceType, outerType>::Loader::Loader()
-  :loadQueue(){}
+  :loadQueue(), runs(false){}
 
 template<typename resourceType, typename outerType>
 Resource<resourceType, outerType>::Loader::~Loader(){}
@@ -21,10 +21,7 @@ void Resource<resourceType, outerType>::Loader::asyncLoad(ResourceListEntry reso
 template<typename resourceType, typename outerType>
 void Resource<resourceType, outerType>::Loader::asyncLoad(const std::vector<ResourceListEntry> &resources)
 {
-  //TODO: look for a neat copying function
-  for(typename std::vector<ResourceListEntry>::iterator iter = resources.begin();
-      iter != resources.end(); ++iter)
-    asyncLoad(*iter);
+  loadQueue.push(resources);
 }
 
 template<typename resourceType, typename outerType>
@@ -54,10 +51,27 @@ bool Resource<resourceType, outerType>::Loader::hasFinishedLoading() const
 }
 
 template<typename resourceType, typename outerType>
+void Resource<resourceType, outerType>::Loader::launch()
+{
+  if(!isRunning())
+  {
+    finishedLoading.Lock();
+    // TODO: NEED TO SET THIS ATOMICALLY!
+    runs = true;
+    Launch();
+  }
+}
+
+template<typename resourceType, typename outerType>
 void Resource<resourceType, outerType>::Loader::Run()
 {
-  ScopedLock lock(finishedLoading);
+  //assert(isRunning());
+  //runs = true;
+  //ScopedLock lock(finishedLoading);
   
   while(!hasFinishedLoading())
     syncLoad(loadQueue.pop());
+  
+  runs = false;
+  finishedLoading.Unlock();
 }
