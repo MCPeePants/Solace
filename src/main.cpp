@@ -24,10 +24,10 @@ int main()
     // CORE GAME LOOP //
     while(window.IsOpened())
     {
-        // Process window events
-        getEvents(window);
         // Render the game onto the current window
         renderScene(window);
+        // Process window events
+        getEvents(window);
     }
 
     return 0;
