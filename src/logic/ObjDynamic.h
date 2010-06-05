@@ -6,9 +6,13 @@
 
 #include <SFML/Graphics.hpp>
 
-class ObjDynamic
-{
-    private:
+#include "ObjDynamic_fwd.h"
+
+namespace logic{
+
+  class ObjDynamic
+  {
+    protected:
     int m_X, m_Y;             // X and Y position
     float m_Xvel, m_Yvel;     // X and Y velocity
     sf::Sprite m_Sprite;     // Object sprite
@@ -23,26 +27,30 @@ class ObjDynamic
         m_Xvel = 0.0f;
         m_Yvel = 0.0f;
 
-        m_Sprite.SetPosition((float)m_X, (float)m_Y);
+        m_Sprite.SetPosition(m_X, m_Y);
     }
     ObjDynamic(int X, int Y, float Vx, float Vy)
     {
-        m_X = X;
-        m_Y = Y;
+      m_X = X;
+      m_Y = Y;
 
-        m_Xvel = Vx;
-        m_Yvel = Vy;
+      m_Xvel = Vx;
+      m_Yvel = Vy;
 
-        m_Sprite.SetPosition((float)m_X, (float)m_Y);
+      m_Sprite.SetPosition(m_X, m_Y);
+    }
+    virtual ~ObjDynamic()
+    {
+      // Function body - just in case. Virtual because baseclass.
     }
     bool SetImage(char* Filepath)
     {
-        if(m_Image.LoadFromFile(Filepath))
-        {
-            m_Sprite.SetImage(m_Image);
-            return true;
-        }
-        else return false;
+      if(m_Image.LoadFromFile(Filepath))
+       {
+           m_Sprite.SetImage(m_Image);
+           return true;
+       }
+       else return false;
     }
     sf::Sprite GetDrawable()
     {
@@ -76,6 +84,7 @@ class ObjDynamic
     {
         return m_Yvel;
     }
-};
+  };
 
+}
 #endif // SLC_LOGIC_OBJDYNAMIC_H
