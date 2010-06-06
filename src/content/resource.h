@@ -35,13 +35,13 @@ namespace content{
    *   Classname(const PathKey &path); // see resource2-example | call Parent(path)-constructor
    *   
    * private:
-   *   Classname(ResourceType &data); // used by Resource::get
+   *   Classname(ResourceListEntry entry); // used by Resource::get | call Parent(entry)-constructor
    *    
    *   static void loadInternal(ResourceType &data, const PathKey &path);
    *   static void unloadInternal(ResourceType &data);
    * };
    * 
-   * Classname::Manager::precache1("/path/resource1");
+   * Classname::Manager::precache("/path/resource1");
    * Classname resource1 = Classname::Manager::get("/path/resource1"); // must be precached (might change)
    * Classname resource2("/path/resource2"); // will also precache if needed*/
    
