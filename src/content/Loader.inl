@@ -1,59 +1,56 @@
-#include <map>
-#include <queue>
-
 #include <SFML/System/Lock.hpp>
 #include <SFML/System/Mutex.hpp>
 #include <SFML/System/Thread.hpp>
 
 namespace content{
 
-  template<typename resourceType, typename outerType>
-  Resource<resourceType, outerType>::Loader::Loader()
+  template<typename internalType, typename publicType>
+  Resource<internalType, publicType>::Loader::Loader()
     :loadQueue(), runs(false){}
 
-  template<typename resourceType, typename outerType>
-  Resource<resourceType, outerType>::Loader::~Loader(){}
+  template<typename internalType, typename publicType>
+  Resource<internalType, publicType>::Loader::~Loader(){}
 
-  template<typename resourceType, typename outerType>
-  void Resource<resourceType, outerType>::Loader::asyncLoad(ResourceListEntry resource)
+  template<typename internalType, typename publicType>
+  void Resource<internalType, publicType>::Loader::asyncLoad(ResourceListEntry resource)
   {
     loadQueue.push(resource);
   }
 
-  template<typename resourceType, typename outerType>
-  void Resource<resourceType, outerType>::Loader::asyncLoad(const std::vector<ResourceListEntry> &resources)
+  template<typename internalType, typename publicType>
+  void Resource<internalType, publicType>::Loader::asyncLoad(const std::vector<ResourceListEntry> &resources)
   {
     loadQueue.push(resources);
   }
 
-  template<typename resourceType, typename outerType>
-  void Resource<resourceType, outerType>::Loader::syncLoad(ResourceListEntry resource)
+  template<typename internalType, typename publicType>
+  void Resource<internalType, publicType>::Loader::syncLoad(ResourceListEntry resource)
   {
-    outerType::loadInternal(resource->second.first, resource->first);
+    publicType::loadInternal(resource->second.first, resource->first);
   }
 
-  template<typename resourceType, typename outerType>
-  void Resource<resourceType, outerType>::Loader::syncLoad(const std::vector<ResourceListEntry> &resources)
+  template<typename internalType, typename publicType>
+  void Resource<internalType, publicType>::Loader::syncLoad(const std::vector<ResourceListEntry> &resources)
   {
     for(typename std::vector<ResourceListEntry>::iterator iter = resources.begin();
         iter != resources.end(); ++iter)
       syncLoad(*iter);
   }
 
-  template<typename resourceType, typename outerType>
-  void Resource<resourceType, outerType>::Loader::finishLoading() const
+  template<typename internalType, typename publicType>
+  void Resource<internalType, publicType>::Loader::finishLoading() const
   {
     ScopedLock lock(finishedLoading);
   }
 
-  template<typename resourceType, typename outerType>
-  bool Resource<resourceType, outerType>::Loader::hasFinishedLoading() const
+  template<typename internalType, typename publicType>
+  bool Resource<internalType, publicType>::Loader::hasFinishedLoading() const
   {
     return loadQueue.getSize() == 0;
   }
 
-  template<typename resourceType, typename outerType>
-  void Resource<resourceType, outerType>::Loader::launch()
+  template<typename internalType, typename publicType>
+  void Resource<internalType, publicType>::Loader::launch()
   {
     if(!isRunning())
     {
@@ -64,8 +61,8 @@ namespace content{
     }
   }
 
-  template<typename resourceType, typename outerType>
-  void Resource<resourceType, outerType>::Loader::Run()
+  template<typename internalType, typename publicType>
+  void Resource<internalType, publicType>::Loader::Run()
   {
     //assert(isRunning());
     //runs = true;

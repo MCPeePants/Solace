@@ -1,9 +1,8 @@
-#include <map>
 #include <queue>
 
 #include <SFML/System/Lock.hpp>
 #include <SFML/System/Mutex.hpp>
-#include <SFML/System/Thread.hpp>
+
 namespace content{
 
   template<typename T>

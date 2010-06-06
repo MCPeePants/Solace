@@ -2,8 +2,7 @@
 #define SLC_CONTENT_RESOURCE_H
 
 #include <cstddef>
-// TODO: find out in which header std::pair is declared
-#include <map>
+#include <utility>
 #include <tr1/unordered_map>
 #include <functional>
 
@@ -33,18 +32,18 @@ namespace content{
    * public:
    *   typedef Resource<Classname> Manager; // static functions are not inherited; use alternative solutions if you wish
    *  
-   *   Classname(const PathKey &path); // call Parent(path)-constructor
+   *   Classname(const PathKey &path); // see resource2-example | call Parent(path)-constructor
    *   
    * private:
-   *   Classname(); // must be default-constructible // TODO: verify ;z33ky
-   *   Classname(ResourceType &data); // used by Resource // TODO: might become obsolete
+   *   Classname(ResourceType &data); // used by Resource::get
    *    
    *   static void loadInternal(ResourceType &data, const PathKey &path);
    *   static void unloadInternal(ResourceType &data);
    * };
    * 
-   * Classname::Manager::precache("/path/resource");
-   * Classname resource("/path/resource"); // will also precache if needed*/
+   * Classname::Manager::precache1("/path/resource1");
+   * Classname resource1 = Classname::Manager::get("/path/resource1"); // must be precached (might change)
+   * Classname resource2("/path/resource2"); // will also precache if needed*/
    
    // HACK: Parent-class (Resource) requires knowledge of Child-class and must be friended
    //   therefore, extenstion is made easy ;z33ky
@@ -76,26 +75,30 @@ namespace content{
     //  ^- or additionally for static latePrecache? ;z33ky
     //  ^- differentiate between precache and get at all? ;z33ky
     static void precache(const PathKey &key, const bool keep = false);
-    // get -> obsolete? (Resource(const PathKey &path))
     static publicType get(const PathKey &key);
+    
     static void startLoading(){ loader.launch();}
+    static void stopLoading(){ loader.Terminate();}
+    
     static void finishLoading(){ loader.finishLoading();}
     static bool isLoading(){ return loader.isRunning();}
     static bool hasFinishedLoading(){ return loader.hasFinishedLoading();}
-    static void stopLoading(){ loader.Terminate();}
     
     Resource(const PathKey &path);
     
   protected:
     Resource(ResourceListEntry entry);
+    Resource(const Resource &other);
     virtual ~Resource();
     
     internalType& getResource(){ return listEntry->second.first;}
-    typename ResourceList::mapped_type::second_type& getRefCount(){ return listEntry->second.second;}
     
   private:
     // right accesibility?
     bool keepResource(){ return getRefCount() == keepResourceSize;}
+    void incrementRefCount();
+    void decrementRefCount();
+    typename ResourceList::mapped_type::second_type& getRefCount(){ return listEntry->second.second;}
     
   private:
     ResourceListEntry listEntry;
