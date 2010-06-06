@@ -2,14 +2,10 @@
 #define SLC_CONTENT_RESOURCE_H
 
 #include <cstddef>
+// TODO: find out in which header std::pair is declared
 #include <map>
 #include <tr1/unordered_map>
 #include <functional>
-#include <queue>
-
-#include <SFML/System/Lock.hpp>
-#include <SFML/System/Mutex.hpp>
-#include <SFML/System/Thread.hpp>
 
 #include <boost/filesystem.hpp>
 //#include <boost/functional/hash.hpp>
@@ -19,6 +15,7 @@
 namespace content{
 
   // TODO: move this somewhere more appropriate ;z33ky
+  //  ^- core
   typedef std::size_t SizeType;
   typedef boost::filesystem::path Path;
   // std::tr1::hash vs boost::hash ?
@@ -69,68 +66,8 @@ namespace content{
     typedef typename ResourceList::iterator ResourceListEntry;
     
   private:
-    // TODO: that loader is an adaption from a more general-purpose one I wrote before
-    //  there's probably stuff to remove from there, though they look useful ;z33ky
-    class Loader : public sf::Thread
-    {
-      typedef sf::Lock ScopedLock;
-      // this class encapsulates a container for threaded access
-      // one thread writes, multiple can read
-      class LoaderQueue
-      {
-        friend class Loader;
-        
-        typedef std::deque<ResourceListEntry> Queue;
-        // typedef typename Queue::value_type QueueValue;
-        typedef sf::Mutex Mutex;
-        typedef sf::Lock ScopedLock;
-      public:
-        
-        LoaderQueue(const SizeType n = 0);
-        ~LoaderQueue();
-          
-        //QueueValue& operator[](const SizeType capacity);
-        SizeType getSize() const;
-          
-      private:
-        void push(ResourceListEntry elem);
-        void push(const std::vector<ResourceListEntry> &elems);
-        ResourceListEntry pop();
-        
-      private:
-        Queue innerQueue;
-        mutable Mutex writeAccess; // mutable so we can have getSize constant
-        //SizeType outerSize;
-        // note: could use this and increment/decrement atomically to not require Mutex
-        //   ^- need to implement canRead and couldRead
-        //   ^- cstdatomic (C++0x)?
-        //SizeType writeHead;
-        //SizeType readHead;
-      };
-    public:
-      Loader();
-      ~Loader();
-        
-      void asyncLoad(ResourceListEntry resource);
-      void asyncLoad(const std::vector<ResourceListEntry> &resources);
-      static void syncLoad(ResourceListEntry resource);
-      static void syncLoad(const std::vector<ResourceListEntry> &resources);
-        
-      void finishLoading() const;
-      bool hasFinishedLoading() const;
-      bool isRunning() const{ return runs;}
-      
-      void launch();
-
-    private:
-      void Run();
-      static void loadInternal(ResourceListEntry resource);
-
-    private:
-      LoaderQueue loadQueue;
-      mutable sf::Mutex finishedLoading;
-      bool runs;
-    };
+    class Loader;
+    
   public:
     // TODO: name this just Path? ;z33ky
     typedef typename ResourceList::key_type PathKey;
@@ -183,12 +120,12 @@ namespace content{
   // TODO: should this be a template parameter? ;z33ky
   template<typename resourceType, typename outerType>
   const bool Resource<resourceType, outerType>::autoStartLoading = true;
-
-// TODO: move inl-files inclusion out of this namespace ! ;z33ky
-#include "content/Resource.inl"
-#include "content/LoaderQueue.inl"
-#include "content/Loader.inl"
   
 }
+
+// late include due to base-class of nested-class being templated, thus not forward-declarable (or something)
+#include "content/loader.h"
+
+#include <content/Resource.inl>
 
 #endif
