@@ -39,8 +39,8 @@ namespace content{
    *   static void unloadInternal(ResourceType &data);
    * };
    * 
-   * Classname::Manager::precache("/path/resource1");
-   * Classname resource1 = Classname::Manager::get("/path/resource1"); // must be precached (might change)
+   * Classname::precache("/path/resource1");
+   * Classname resource1 = Classname::get("/path/resource1"); // must be precached (might change)
    * Classname resource2("/path/resource2"); // will also precache if needed*/
    
    // HACK: Parent-class (Resource) requires knowledge of Child-class and must be friended
@@ -52,8 +52,6 @@ namespace content{
    // TODO: handling directories ;z33ky
    //   ^- boost/regex/vr/fileiter.hpp -> boost::file_iterator and if(str.back() == boost::filesystem::slash<Path>) str.push_back('*'); or something
    //   ^- will do later when the virtual filesystem is in place ;z33ky
-   // TODO: change some (out-commented) asserts into exceptions ;z33ky
-   // TODO: don't just "comment-throw" exceptions ;z33ky
   template<typename internalType, typename publicType = internalType>
   class Resource
   {
