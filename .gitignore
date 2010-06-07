@@ -1,3 +1,6 @@
+bin
+bin/*
+obj
+obj/*
 *.swp
-*.o
-bin/solace
+
