@@ -1,3 +1,5 @@
+#include <stdexcept>
+#include <iostream>
 #include <utility>
 
 #include <SFML/System/Lock.hpp>
@@ -55,8 +57,11 @@ namespace content{
     
     if(entry == resourceList.end())
     {
-      // TODO warning ;z33ky
-      // throw ResourceException("Cannot find Resource " + key);
+      // TODO: warn about late precache
+      typedef typename Resource<internalType, publicType>::ResourceList::value_type Entry;
+      typedef typename Resource<internalType, publicType>::ResourceList::mapped_type SubEntry;
+
+      loader.syncLoad(resourceList.insert(Entry(key, SubEntry(internalType(), 0))).first);
     }
     
     return publicType(resourceList.find(key));
@@ -66,18 +71,25 @@ namespace content{
   void Resource<internalType, publicType>::incrementRefCount()
   {
     if(!keepResource())
+    {
       ++getRefCount();
-    // TODO: throw exception or something ;z33ky
-    //  assert(getRefCount() != static_cast<SizeType>(-1));
+      // assert(getRefCount() != static_cast<SizeType>(-1));
+      throw std::overflow_error("Resource reference count overflowed!");
+    }
   }
   
   template<typename internalType, typename publicType>
   void Resource<internalType, publicType>::decrementRefCount()
   {
-    if(!keepResource() && --getRefCount() == 0)
+    if(getRefCount() == 0)
     {
-      // TODO: debug information ("resource blah has been unloaded") ;z33ky
-      publicType::unloadInternal(listEntry->second.first);
+      throw std::logic_error("Resource reference count is 0 .. and it's getting decremented");
+    }
+    else if(!keepResource() && --getRefCount() == 0)
+    {
+      // TODO: the hash doesn't help much, does it?
+      std::cout << "Resource #" << listEntry->first << " is getting unloaded" << std::endl;
+      publicType::unloadInternal(getResource());
       resourceList.erase(listEntry);
     }
   }

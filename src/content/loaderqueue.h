@@ -11,7 +11,7 @@ namespace content{
   
   // this class encapsulates a container for threaded access
   // one thread writes, multiple can read
-  // TODO: new name needed  
+  // TODO: new name needed
   template<typename T>
   class LoaderQueue
   {

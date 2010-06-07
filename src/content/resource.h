@@ -30,8 +30,6 @@ namespace content{
    * {
    *   friend class Resource<Classname>; // Resource uses private functions
    * public:
-   *   typedef Resource<Classname> Manager; // static functions are not inherited; use alternative solutions if you wish
-   *  
    *   Classname(const PathKey &path); // see resource2-example | call Parent(path)-constructor
    *   
    * private:
@@ -48,8 +46,9 @@ namespace content{
    // HACK: Parent-class (Resource) requires knowledge of Child-class and must be friended
    //   therefore, extenstion is made easy ;z33ky
    // TODO: error-handling ;z33ky
-   //   ^- I could provide general error-handling, but that should probably just be done by the individual child-class
-   //   ^- maybe bool loadInternal to terminate the thread, though this could also be done from within that function
+   //   ^- I could provide general error-handling, but that should probably just be done by the individual child-class ;z33ky
+   //   ^- maybe bool loadInternal to terminate the thread, though this could also be done from within that function ;z33ky
+   //   ^- possibly a (pure?) virtual handleError function ;z33ky
    // TODO: handling directories ;z33ky
    //   ^- boost/regex/vr/fileiter.hpp -> boost::file_iterator and if(str.back() == boost::filesystem::slash<Path>) str.push_back('*'); or something
    //   ^- will do later when the virtual filesystem is in place ;z33ky
@@ -72,6 +71,7 @@ namespace content{
     typedef typename ResourceList::key_type PathKey;
     
     // TODO: return iterator? ;z33ky
+    //  ^- noone on the public should see the internals ;z33ky
     //  ^- or additionally for static latePrecache? ;z33ky
     //  ^- differentiate between precache and get at all? ;z33ky
     static void precache(const PathKey &key, const bool keep = false);

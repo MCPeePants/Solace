@@ -68,6 +68,7 @@ namespace content{
     //runs = true;
     //ScopedLock lock(finishedLoading);
     
+    // TODO: handle errors
     while(!hasFinishedLoading())
       syncLoad(loadQueue.pop());
     

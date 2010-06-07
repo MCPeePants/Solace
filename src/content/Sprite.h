@@ -11,19 +11,16 @@ namespace content{
   
   // sample using Resource
   // bad sample.. inlined constructors 'n stuff
-  class Sprite : Resource<sf::Image, Sprite>
+  class Sprite : public Resource<sf::Image, Sprite>
   {
     friend class Resource<sf::Image, Sprite>;
-  public:
-    // we need this because static functions are not inherited
-    // ^- alternative: typedef it outside of Sprite
-    // ^- second alternative: provide own static functions
-    typedef Resource<sf::Image, Sprite> Manager;
+
+    typedef Resource<sf::Image, Sprite> Base;
   private:
-    Sprite(ResourceListEntry entry):Manager(entry), spr(getResource()){}
+    Sprite(ResourceListEntry entry):Base(entry), spr(getResource()){}
     
   public:
-    Sprite(const PathKey &path):Manager(path), spr(getResource()){}
+    Sprite(const PathKey &path):Base(path), spr(getResource()){}
     ~Sprite(){}
     
     // void Draw(); and what not would come here

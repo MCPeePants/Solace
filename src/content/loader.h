@@ -9,8 +9,6 @@
 
 namespace content{
   
-  // TODO: that loader is an adaption from a more general-purpose one I wrote before
-  //  there's probably stuff to remove from there, though they look useful ;z33ky
   template<typename internalType, typename publicType>
   class Resource<internalType, publicType>::Loader : public sf::Thread
   {
