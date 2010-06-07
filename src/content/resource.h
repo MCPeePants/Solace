@@ -30,10 +30,10 @@ namespace content{
    * {
    *   friend class Resource<Classname>; // Resource uses private functions
    * public:
-   *   Classname(const PathKey &path); // see resource2-example | call Parent(path)-constructor
+   *   Classname(const PathKey &path); // see resource2-example | call Base(path)-constructor
    *   
    * private:
-   *   Classname(ResourceListEntry entry); // used by Resource::get | call Parent(entry)-constructor
+   *   Classname(ResourceListEntry entry); // used by Resource::get | call Base(entry)-constructor
    *    
    *   static void loadInternal(ResourceType &data, const PathKey &path);
    *   static void unloadInternal(ResourceType &data);
@@ -52,12 +52,13 @@ namespace content{
    // TODO: handling directories ;z33ky
    //   ^- boost/regex/vr/fileiter.hpp -> boost::file_iterator and if(str.back() == boost::filesystem::slash<Path>) str.push_back('*'); or something
    //   ^- will do later when the virtual filesystem is in place ;z33ky
-  template<typename internalType, typename publicType = internalType>
+  template<typename internalType, typename publicType>
   class Resource
   {
     typedef std::tr1::unordered_map<Path, std::pair<internalType, SizeType>, PathHasher> ResourceList;
     
   protected:
+    typedef Resource<internalType, publicType> Base;
     typedef internalType ResourceType;
     typedef typename ResourceList::iterator ResourceListEntry;
     

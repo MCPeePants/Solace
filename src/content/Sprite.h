@@ -14,8 +14,6 @@ namespace content{
   class Sprite : public Resource<sf::Image, Sprite>
   {
     friend class Resource<sf::Image, Sprite>;
-
-    typedef Resource<sf::Image, Sprite> Base;
   private:
     Sprite(ResourceListEntry entry):Base(entry), spr(getResource()){}
     
