@@ -15,11 +15,11 @@ namespace content{
     std::ifstream modFile(path.c_str(), std::ifstream::in | std::ifstream::binary);
 
     modFile.seekg(0, std::ifstream::end);
-    const std::streampos filesize = modFile.tellg();
+    const std::streampos fileSize = modFile.tellg();
     modFile.seekg(0, std::ifstream::beg);
 
-    char *filedata = new char[filesize];
-    modFile.readsome(filedata, filesize);
+    char *fileData = new char[fileSize];
+    modFile.readsome(fileData, fileSize);
 
     modFile.close();
     
@@ -28,23 +28,30 @@ namespace content{
     modSettings.mBits = 16; // TODO: probably could do that at initialization-time ;z33ky
     ModPlug_SetSettings(&modSettings);
 
-    ModPlugFile *mod = ModPlug_Load(filedata, filesize);
-    delete[] filedata;
+    ModPlugFile *mod = ModPlug_Load(fileData, fileSize);
+    delete[] fileData;
 
-    std::vector<char> data;
-    data.reserve(modSettings.mFrequency * modSettings.mChannels * (modSettings.mBits / 8) * (ModPlug_GetLength(mod) * 0.001f)); // TODO: trust ModPlug_GetLength enough? ;z33ky
-    char *single = new char[modSettings.mChannels * (modSettings.mBits / 8)];
+    const int sampleSize = modSettings.mChannels * (modSettings.mBits / 8);
+    std::vector<char> samples;
+    const std::vector<char>::size_type guessedSize = modSettings.mFrequency * sampleSize * (ModPlug_GetLength(mod) * 0.001f);
+    samples.reserve(guessedSize);
+    // TODO: I guess datasize the minimum length, but a guess is a guess ;z33ky
+    char *sample = new char[guessedSize];
     
-    // TODO: we can make this a little more efficient ;z33ky
-    while(ModPlug_Read(mod, single, modSettings.mChannels * (modSettings.mBits / 8)))
-      for(int i = 0; i < modSettings.mChannels * (modSettings.mBits / 8); ++i)
-        data.push_back(single[i]);
+    ModPlug_Read(mod, sample, guessedSize);
+    samples.insert(samples.begin(), sample, sample + guessedSize);
+    
+    delete[] sample;
+    sample = new char[sampleSize];
+    
+    while(ModPlug_Read(mod, sample, modSettings.mChannels * (modSettings.mBits / 8)))
+      samples.insert(samples.end(), sample, sample + sampleSize);
     
     ModPlug_Unload(mod);
-    delete[] single;
+    delete[] sample;
 
     sf::SoundBuffer buffer;
-    buffer.LoadFromSamples(reinterpret_cast<const sf::Int16*>(data.data()), data.size() / 2, modSettings.mChannels, modSettings.mFrequency);
+    buffer.LoadFromSamples(reinterpret_cast<const sf::Int16*>(samples.data()), samples.size() / sizeof(sf::Int16), modSettings.mChannels, modSettings.mFrequency);
     return buffer;
   }
 
