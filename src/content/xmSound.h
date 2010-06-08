@@ -51,8 +51,9 @@ namespace content{
     datasize = ModPlug_Read(mod, data, datasize);
 
     // HACK: cut off silence, since ModPlug_Read does not report the # of bytes read ;z33ky
-    while((int)data[datasize-4] == 0)
-      datasize -= modSettings.mChannels * (modSettings.mBits / 8);
+    int i = 0;
+    for(; i <= datasize && data[datasize-i] != 0; ++i);
+    datasize -= i / (modSettings.mChannels * (modSettings.mBits / 8));
     
     ModPlug_Unload(mod);
 
