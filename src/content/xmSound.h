@@ -1,7 +1,6 @@
 #ifndef SLC_CONTENT_XMSOUND_H
 #define SLC_CONTENT_XMSOUND_H
 
-#include <cstring>
 #include <fstream>
 #include <string>
 
@@ -30,36 +29,21 @@ namespace content{
     ModPlug_SetSettings(&modSettings);
 
     ModPlugFile *mod = ModPlug_Load(filedata, filesize);
-    //delete filedata; // appearently we do not delete this
+    delete[] filedata;
 
-    unsigned int rows, patternsSize = 0;
-    for(unsigned int i = 0; i < ModPlug_NumPatterns(mod); ++i)
-    {
-      const ModPlugNote *notes = ModPlug_GetPattern(mod, i, &rows);
-      /*for(unsigned int j = 0; j < rows; ++j)
-      {
-        std::cout << notes[j].Note << std::endl;
-        if(notes[j].Note != 0)
-          ++patternsSize;
-      }*/
-      patternsSize += rows;
-    }
-
-    int datasize = modSettings.mFrequency * modSettings.mChannels * (modSettings.mBits / 8) * /*LOWEST_SPEED * */ patternsSize;
-    char *data = new char[datasize];
-
-    datasize = ModPlug_Read(mod, data, datasize);
-
-    // HACK: cut off silence, since ModPlug_Read does not report the # of bytes read ;z33ky
-    int i = 0;
-    for(; i <= datasize && data[datasize-i] != 0; ++i);
-    datasize -= i / (modSettings.mChannels * (modSettings.mBits / 8));
+    std::vector<char> data;
+    data.reserve(modSettings.mFrequency * modSettings.mChannels * (modSettings.mBits / 8) * ModPlug_GetLength(mod) * 0.001f); // TODO: trust ModPlug_GetLength enough?
+    char *single = new char[modSettings.mChannels * (modSettings.mBits / 8)];
+    
+    while(ModPlug_Read(mod, single, modSettings.mChannels * (modSettings.mBits / 8)))
+      for(int i = 0; i < modSettings.mChannels * (modSettings.mBits / 8); ++i)
+        data.push_back(single[i]);
     
     ModPlug_Unload(mod);
+    delete[] single;
 
     sf::SoundBuffer buffer;
-    buffer.LoadFromSamples(reinterpret_cast<sf::Int16*>(data), datasize / 2, modSettings.mChannels, modSettings.mFrequency);
-    //delete data; // appearently we do not delete this
+    buffer.LoadFromSamples(reinterpret_cast<const sf::Int16*>(data.data()), data.size() / 2, modSettings.mChannels, modSettings.mFrequency);
     return buffer;
   }
 
