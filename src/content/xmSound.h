@@ -5,10 +5,22 @@
 #include <string>
 
 #include <SFML/Audio/SoundBuffer.hpp>
+#include <SFML/Audio/SoundStream.hpp>
 
 #include <libmodplug/modplug.h>
 
+#include "core/staticconstructor.h"
+
 namespace content{
+  
+  // TODO: stuff in inline-file ;z33ky
+  STATIC_INIT()
+  {
+    ModPlug_Settings modSettings;
+    ModPlug_GetSettings(&modSettings);
+    modSettings.mBits = 16; // TODO: probably could do that at initialization-time ;z33ky
+    ModPlug_SetSettings(&modSettings);
+  }
 
   static sf::SoundBuffer openXMFile(const std::string &path)
   {
@@ -25,8 +37,6 @@ namespace content{
     
     ModPlug_Settings modSettings;
     ModPlug_GetSettings(&modSettings);
-    modSettings.mBits = 16; // TODO: probably could do that at initialization-time ;z33ky
-    ModPlug_SetSettings(&modSettings);
 
     ModPlugFile *mod = ModPlug_Load(fileData, fileSize);
     delete[] fileData;
@@ -43,7 +53,7 @@ namespace content{
     delete[] sample;
     sample = new char[sampleSize];
     
-    while(ModPlug_Read(mod, sample, modSettings.mChannels * (modSettings.mBits / 8)))
+    while(ModPlug_Read(mod, sample, sampleSize))
       samples.insert(samples.end(), sample, sample + sampleSize);
     
     ModPlug_Unload(mod);
@@ -57,8 +67,10 @@ namespace content{
   class XMStream : public sf::SoundStream
   {
   public:
-    static sf::SoundStream open(const std::string &path)
+    // note: violating convention
+    bool Open(const std::string &path)
     {
+
       std::ifstream modFile(path.c_str(), std::ifstream::in | std::ifstream::binary);
 
       modFile.seekg(0, std::ifstream::end);
@@ -70,31 +82,43 @@ namespace content{
 
       modFile.close();
       
-      ModPlug_Settings modSettings;
       ModPlug_GetSettings(&modSettings);
-      modSettings.mBits = 16; // TODO: probably could do that at initialization-time ;z33ky
-      ModPlug_SetSettings(&modSettings);
 
-      ModPlugFile *mod = ModPlug_Load(fileData, fileSize);
+      mod = ModPlug_Load(fileData, fileSize);
       delete[] fileData;
 
-      const int sampleSize = modSettings.mChannels * (modSettings.mBits / 8);
+      sampleSize = modSettings.mChannels * (modSettings.mBits / 8);
+
+      Initialize(modSettings.mChannels, modSettings.mFrequency);
+
+      return true;
     }
     
   private:
     bool OnGetData(Chunk& data)
     {
+      data.NbSamples = modSettings.mFrequency; // 1 second chunk
+      char *samples = new char[data.NbSamples * sampleSize];
       
+      data.NbSamples = (ModPlug_Read(mod, samples, data.NbSamples * sampleSize) / sampleSize) * sizeof(sf::Int16);
+      data.Samples = reinterpret_cast<sf::Int16*>(samples);
+      
+      //delete[] samples; // seems to sometimes make problems (song start?)?
+      // TODO: ^- investigate! ;z33ky
+      
+      return data.NbSamples != 0;
     }
     
     void OnSeek(float timeOffset)
     {
-      
+      ModPlug_Seek(mod, timeOffset * 1000);
     }
     
   private:
-    
-  }
+    ModPlugFile *mod;
+    ModPlug_Settings modSettings;
+    int sampleSize;
+  };
 
 }
 
