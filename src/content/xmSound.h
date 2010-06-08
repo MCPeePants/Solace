@@ -26,7 +26,7 @@ namespace content{
     
     ModPlug_Settings modSettings;
     ModPlug_GetSettings(&modSettings);
-    modSettings.mBits = 16; // TODO: probably could do that at initialization-time
+    modSettings.mBits = 16; // TODO: probably could do that at initialization-time ;z33ky
     ModPlug_SetSettings(&modSettings);
 
     ModPlugFile *mod = ModPlug_Load(filedata, filesize);
@@ -45,12 +45,14 @@ namespace content{
       patternsSize += rows;
     }
 
-    int datasize = modSettings.mFrequency * patternsSize * /*ModPlug_NumChannels(mod) **/ modSettings.mChannels * (modSettings.mBits / 8);
+    int datasize = modSettings.mFrequency * modSettings.mChannels * (modSettings.mBits / 8) * /*LOWEST_SPEED * */ patternsSize;
     char *data = new char[datasize];
-    
-    std::cout << datasize << std::endl;
-    
+
     datasize = ModPlug_Read(mod, data, datasize);
+
+    // HACK: cut off silence, since ModPlug_Read does not report the # of bytes read ;z33ky
+    while((int)data[datasize-4] == 0)
+      datasize -= modSettings.mChannels * (modSettings.mBits / 8);
     
     ModPlug_Unload(mod);
 
