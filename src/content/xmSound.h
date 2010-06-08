@@ -32,9 +32,10 @@ namespace content{
     delete[] filedata;
 
     std::vector<char> data;
-    data.reserve(modSettings.mFrequency * modSettings.mChannels * (modSettings.mBits / 8) * ModPlug_GetLength(mod) * 0.001f); // TODO: trust ModPlug_GetLength enough?
+    data.reserve(modSettings.mFrequency * modSettings.mChannels * (modSettings.mBits / 8) * (ModPlug_GetLength(mod) * 0.001f)); // TODO: trust ModPlug_GetLength enough? ;z33ky
     char *single = new char[modSettings.mChannels * (modSettings.mBits / 8)];
     
+    // TODO: we can make this a little more efficient ;z33ky
     while(ModPlug_Read(mod, single, modSettings.mChannels * (modSettings.mBits / 8)))
       for(int i = 0; i < modSettings.mChannels * (modSettings.mBits / 8); ++i)
         data.push_back(single[i]);
