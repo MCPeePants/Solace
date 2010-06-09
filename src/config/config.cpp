@@ -13,6 +13,10 @@ namespace config{
             throw lua::LuaException(error, lua_tostring(L, -1));
     }
 
+    Config::Config(const Config& parent, const std::string& key) : L(parent.L)
+    {
+    }
+
     Config::~Config()
     {
         lua_close(L);
@@ -30,6 +34,11 @@ namespace config{
     ConfigValue Config::operator[](const std::string& key)
     {
         return getValue(key);
+    }
+
+    Config Config::getSub(const std::string& key)
+    {
+        return Config(*this, key);
     }
 
     std::string Config::get(const std::string& key, const std::string& def)
