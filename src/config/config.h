@@ -25,8 +25,11 @@ namespace config{
         bool get(const std::string& key, bool def);
 
         private:
-        Config(const Config& parent, const std::string& key);
+        Config(Config& parent, const std::string& key);
+        void push();
         lua_State* L;
+        bool stateOwner;
+        int env;
     };
 }
 

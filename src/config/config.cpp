@@ -6,28 +6,46 @@
 #include "lua/exception.h"
 
 namespace config{
-    Config::Config(const std::string& path) : L(luaL_newstate())
+    Config::Config(const std::string& path) : L(luaL_newstate()), stateOwner(true)
     {
         int error = luaL_dofile(L, path.c_str());
         if(error != 0)
             throw lua::LuaException(error, lua_tostring(L, -1));
+
+        lua_pushvalue(L, LUA_GLOBALSINDEX);
+        env = luaL_ref(L, LUA_REGISTRYINDEX);
     }
 
-    Config::Config(const Config& parent, const std::string& key) : L(parent.L)
+    Config::Config(Config& parent, const std::string& key) : L(parent.L), stateOwner(false)
     {
+        parent.push();
+        lua_getfield(L, -1, key.c_str());
+        if(!lua_istable(L, -1))
+            throw lua::LuaException(0, "Sub-tree in configuration is not a table value");
+
+        env = luaL_ref(L, LUA_REGISTRYINDEX);
+        lua_pop(L, 1);
     }
 
     Config::~Config()
     {
-        lua_close(L);
+        if(stateOwner)
+            lua_close(L);
+    }
+
+    void Config::push()
+    {
+        lua_rawgeti(L, LUA_REGISTRYINDEX, env);
     }
 
     ConfigValue Config::getValue(const std::string& key)
     {
-        lua_getglobal(L, key.c_str());
-        ConfigValue v(L, -1);
-        lua_pop(L, 1);
+        push();
+        lua_getfield(L, -1, key.c_str());
 
+        ConfigValue v(L, -1);
+
+        lua_pop(L, 2);
         return v;
     }
 
