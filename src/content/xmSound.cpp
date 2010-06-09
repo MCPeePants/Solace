@@ -1,4 +1,12 @@
+#include <fstream>
+#include <string>
+
+#include <SFML/Audio/SoundBuffer.hpp>
+
+#include <libmodplug/modplug.h>
+
 #include "content/xmSound.h"
+#include "core/staticconstructor.h"
 
 namespace content{
   
@@ -6,7 +14,7 @@ namespace content{
   {
     ModPlug_Settings modSettings;
     ModPlug_GetSettings(&modSettings);
-    modSettings.mBits = 16; // TODO: probably could do that at initialization-time ;z33ky
+    modSettings.mBits = 16;
     ModPlug_SetSettings(&modSettings);
   }
 
@@ -44,7 +52,7 @@ namespace content{
     const int sampleSize = modSettings.mChannels * (modSettings.mBits / 8);
     std::vector<char> samples;
     const std::vector<char>::size_type guessedSize = modSettings.mFrequency * sampleSize * (ModPlug_GetLength(mod) * 0.001f);
-    // TODO: I guess guessedSize the minimum length, but a guess is a guess ;z33ky
+    // FIXME: I guess guessedSize the minimum length, but a guess is a guess ;z33ky
     //   if it's longer it will generate silence at the end
     char *sample = new char[guessedSize];
     
@@ -66,9 +74,15 @@ namespace content{
     return buf.LoadFromSamples(reinterpret_cast<const sf::Int16*>(samples.data()), samples.size() / sizeof(sf::Int16), modSettings.mChannels, modSettings.mFrequency);
   }
   
+  XMStream::XMStream()
+    :samples(NULL){}
+
   XMStream::~XMStream()
   {
-    ModPlug_Unload(mod);
+    delete[] samples;
+    
+    if(GetSampleRate() != 0)
+      ModPlug_Unload(mod);
   }
   
   bool XMStream::Open(const std::string &path)
@@ -85,13 +99,13 @@ namespace content{
     char *fileData = new char[fileSize];
     modFile.readsome(fileData, fileSize);
     
+    modFile.close();
+    
     if(!modFile)
     {
       delete[] fileData;
       return false;
     }
-
-    modFile.close();
     
     ModPlug_GetSettings(&modSettings);
 
@@ -111,13 +125,15 @@ namespace content{
   bool XMStream::OnGetData(Chunk& data)
   {
     data.NbSamples = modSettings.mFrequency; // 1 second chunk
-    char *samples = new char[data.NbSamples * sampleSize];
+    // char *samples = NULL; // member for workaround for delete[] (see below)
+    delete[] samples;
+    samples = new char[data.NbSamples * sampleSize];
       
     data.NbSamples = (ModPlug_Read(mod, samples, data.NbSamples * sampleSize) / sampleSize) * sizeof(sf::Int16);
     data.Samples = reinterpret_cast<sf::Int16*>(samples);
       
-    // delete[] samples; // seems to sometimes make problems (song start?)?
-    // TODO: ^- investigate! ;z33ky
+    // delete[] samples; // seems to sometimes make problems (only at song start?)?
+    //  ^- worked around that ;z33ky
       
     return data.NbSamples != 0;
   }

@@ -1,15 +1,15 @@
 #ifndef SLC_CONTENT_XMSOUND_H
 #define SLC_CONTENT_XMSOUND_H
 
-#include <fstream>
 #include <string>
 
-#include <SFML/Audio/SoundBuffer.hpp>
 #include <SFML/Audio/SoundStream.hpp>
 
 #include <libmodplug/modplug.h>
 
-#include "core/staticconstructor.h"
+namespace sf{
+  class SoundBuffer;
+}
 
 namespace content{
 
@@ -18,6 +18,7 @@ namespace content{
   class XMStream : public sf::SoundStream
   {
   public:
+    XMStream();
     ~XMStream();
     
     // note: violating convention
@@ -32,6 +33,7 @@ namespace content{
     ModPlugFile *mod;
     ModPlug_Settings modSettings;
     int sampleSize;
+    char *samples;
   };
 
 }
