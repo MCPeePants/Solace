@@ -27,7 +27,6 @@ namespace config{
         private:
         Config(const Config& parent, const std::string& key);
         lua_State* L;
-        int env;
     };
 }
 
