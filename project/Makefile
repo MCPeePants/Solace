@@ -4,7 +4,7 @@ SHELL = /bin/sh
 CC = gcc
 CFLAGS =
 CPP = gcc -E
-CPPFLAGS = -I.
+CPPFLAGS = -Isrc
 CXX = g++
 CXXFLAGS = -g -pedantic -Wall -O2
 LD = ld
@@ -18,10 +18,11 @@ objdir = obj
 outfile = $(bindir)/solace
 
 # ALL subfolders of src here. Also subfolders of these, if any.
-obj_subdirs = core logic math
+src_subdirs = core logic math content
 
-f_find = $(wildcard obj/($(dir)/*.o))
-out_depends = $(foreach dir,$(obj_subdirs),$(f_find)) $(wildcard obj/*.o)
+f_find = $(wildcard $(srcdir)/$(dir)/*.cpp)
+out_sources = $(foreach dir,$(src_subdirs),$(f_find)) $(wildcard $(srcdir)/*.cpp)
+out_depends = $(subst $(srcdir),$(objdir),$(out_sources:.cpp=.o))
 # out_depends contains all object files if obj_subdirs contains all
 # directories that contain object files!
 
