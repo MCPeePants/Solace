@@ -6,3 +6,4 @@ obj/*
 *.exe
 *.o
 *.obj
+*.ncb
