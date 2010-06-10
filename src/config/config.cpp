@@ -31,6 +31,8 @@ namespace config{
     {
         if(stateOwner)
             lua_close(L);
+        else
+            luaL_unref(L, LUA_REGISTRYINDEX, env);
     }
 
     void Config::push()
@@ -43,7 +45,7 @@ namespace config{
         push();
         lua_getfield(L, -1, key.c_str());
 
-        ConfigValue v(L, -1);
+        ConfigValue v(L);
 
         lua_pop(L, 2);
         return v;
@@ -63,6 +65,11 @@ namespace config{
     {
         ConfigValue v = getValue(key);
         return v.isNull()? def : v.string();
+    }
+
+    std::string Config::get(const std::string& key, const char* def)
+    {
+        return get(key, std::string(def));
     }
 
     double Config::get(const std::string& key, double def)

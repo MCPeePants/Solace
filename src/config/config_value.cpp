@@ -7,21 +7,21 @@
 namespace config{
     ConfigValue::ConfigValue(lua_State* L, int index)
     {
-        switch(lua_type(L, -1))
+        switch(lua_type(L, index))
         {
             case LUA_TSTRING:
                 type = ConfigType::String;
-                m_string = lua_tostring(L, -1);
+                m_string = lua_tostring(L, index);
                 break;
 
             case LUA_TNUMBER:
                 type = ConfigType::Number;
-                m_number = lua_tonumber(L, -1);
+                m_number = lua_tonumber(L, index);
                 break;
 
             case LUA_TBOOLEAN:
                 type = ConfigType::Boolean;
-                m_boolean = lua_toboolean(L, -1);
+                m_boolean = lua_toboolean(L, index);
                 break;
 
             default:
@@ -31,8 +31,11 @@ namespace config{
 
     void ConfigValue::assertType(ConfigType::Type t)
     {
-        if(t != type)
-            throw std::runtime_error("Config value type mis-match"); //TODO: improve
+        // TODO: improve
+        if(isNull())
+            throw std::runtime_error("Configuration value not set");
+        else if(t != type)
+            throw std::runtime_error("Configuration value type mis-match");
     }
 
     bool ConfigValue::isNull()
