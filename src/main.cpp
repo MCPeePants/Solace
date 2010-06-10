@@ -32,10 +32,10 @@ int main()
     // CORE GAME LOOP //
     while(window.IsOpened())
     {
-        // Process window events
-        getEvents(window);
         // Render the game onto the current window
         renderScene(window);
+        // Process window events
+        getEvents(window);
     }
 
     return 0;
@@ -58,26 +58,34 @@ void renderScene(sf::RenderWindow& surface)
 /// THANKS TO JA_COP FOR HELPING ME OUT WITH THIS :)
 void getEvents(sf::RenderWindow& window)
 {
-	sf::Event event;
-	while(window.GetEvent(event))
-	{
-		switch(event.Type)
-		{
-		case sf::Event::Closed:
-			window.Close();
-			break;
+  sf::Event event;
+  while(window.GetEvent(event))
+  {
+    switch(event.Type)
+    {
+      case sf::Event::Closed:
+        window.Close();
+      break;
 
-		case sf::Event::KeyPressed:
-			if(event.Key.Code == sf::Key::Escape)
-				window.Close();
-			break;
+      case sf::Event::KeyPressed:
+        switch(event.Key.Code)
+        {
+          case sf::Key::Escape:
+            window.Close();
+          break;
 
-		default:
-			// I don't know what to do here but ja_cop says this:
-			// Pass to input module or GUI module (placeholder)
-			// so do that i guess
-            // TODO: ADD MORE INPUTS
-			break;
-		}
-	}
+          default:
+            // TODO: A call to some global key handler here? ;esa
+          break;
+        }
+     break;
+
+     default:
+       // I don't know what to do here but ja_cop says this:
+       // Pass to input module or GUI module (placeholder)
+       // so do that i guess
+       // TODO: ADD MORE INPUTS
+     break;
+     }
+  }
 }
