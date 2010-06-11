@@ -12,7 +12,7 @@ class StaticConstructor
 
 #define STATIC_INIT() \
     void _static_Init(); \
-    StaticConstructor _staticConstructor(_static_Init);\
+    static StaticConstructor _staticConstructor(_static_Init);\
     void _static_Init()
 
 #endif
