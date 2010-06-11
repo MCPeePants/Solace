@@ -7,10 +7,21 @@
 namespace graphics{ namespace ui{
 	class Button : BaseControl {
 	private:
+        // Stops the compiler whining
+		virtual ~Button() {}
+        // Draws the button to the drawing context
 		virtual void draw(sf::RenderWindow& context);
+		// Handles the mouse events
+		virtual void processInput(sf::Event& event);
+
+		// TEMPORARY!!! REPLACE THESE WITH STUFF FROM THE CONTENT LOADER!!!
+		sf::Shape buttonRect;
 		sf::String text;
 
+		void (*buttonCallback)();
+
 	public:
+        Button(float tempX, float tempY, float tempWidth, float tempHeight, void (*buttonFunc)());
 		void setText(std::string tempText);
 	};
 }}

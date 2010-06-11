@@ -44,11 +44,14 @@
 		<Unit filename="..\..\src\graphics\ui\base.cpp" />
 		<Unit filename="..\..\src\graphics\ui\base.h" />
 		<Unit filename="..\..\src\graphics\ui\base_fwd.h" />
+		<Unit filename="..\..\src\graphics\ui\button.cpp" />
 		<Unit filename="..\..\src\graphics\ui\button.h" />
 		<Unit filename="..\..\src\graphics\ui\button_fwd.h" />
 		<Unit filename="..\..\src\logic\ObjDynamic.h" />
 		<Unit filename="..\..\src\main.cpp" />
 		<Unit filename="..\..\src\math\vector.h" />
+		<Unit filename="..\..\src\math\vector.inl" />
+		<Unit filename="..\..\src\math\vector_fwd.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

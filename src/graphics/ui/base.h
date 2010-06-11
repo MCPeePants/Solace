@@ -7,12 +7,17 @@
 
 #include "base_fwd.h"
 
+namespace graphics{ namespace ui{
+
 class BaseControl
 {
     friend class ControlList;
 
     private:
     virtual void draw(sf::RenderWindow& context) = 0;
+    virtual void processInput(sf::Event& event) = 0;
+
+    protected:
     float x, y, width, height;
 
     public:
@@ -36,5 +41,7 @@ class ControlList
     public:
     void add(BaseControl& control);
 };
+
+}}
 
 #endif // SLC_GRAPHICS_UI_BASE_H

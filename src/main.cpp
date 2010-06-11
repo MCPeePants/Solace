@@ -2,7 +2,6 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "graphics/ui/base.h"
 #include "graphics/ui/Button.h"
 
 // Function declarations
