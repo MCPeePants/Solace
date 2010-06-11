@@ -3,4 +3,7 @@ bin/*
 obj
 obj/*
 *.swp
-
+*.exe
+*.o
+*.obj
+*.ncb
