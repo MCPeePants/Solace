@@ -31,8 +31,7 @@ namespace content{
     
   private:
     ModPlugFile *mod;
-    ModPlug_Settings modSettings;
-    int sampleSize;
+    int singleSampleSize, samplesSize;
     char *samples;
   };
 
