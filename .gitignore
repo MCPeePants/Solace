@@ -7,3 +7,5 @@ obj/*
 *.o
 *.obj
 *.ncb
+project/codelite/*
+!project/codelite/solace.project
